@@ -4,21 +4,19 @@ using System.Text.Json.Serialization;
 
 namespace Celoxis.Api.Models;
 
-/// <summary>
-/// Represents a time entry
-/// </summary>
-public class CeloxisTimeEntry : CeloxisModel
+public class CeloxisTimeEntry
 {
     [JsonPropertyName("id")]
     public string Id { get; set; }
 
     [JsonPropertyName("url")]
-    public Uri Url { get; set; }
+    public string Url { get; set; }
 
     [JsonPropertyName("quickBooks Online Id")]
     public string QuickBooksOnlineId { get; set; }
 
     [JsonPropertyName("xaTs")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? XaTs { get; set; }
 
     [JsonPropertyName("user")]
@@ -34,15 +32,18 @@ public class CeloxisTimeEntry : CeloxisModel
     public string AccountingCode { get; set; }
 
     [JsonPropertyName("created")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? Created { get; set; }
 
     [JsonPropertyName("date")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? Date { get; set; }
 
     [JsonPropertyName("dateWeek")]
     public string DateWeek { get; set; }
 
     [JsonPropertyName("dateWeekDate")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? DateWeekDate { get; set; }
 
     [JsonPropertyName("dateMonth")]
@@ -58,6 +59,7 @@ public class CeloxisTimeEntry : CeloxisModel
     public string DateFiscalYear { get; set; }
 
     [JsonPropertyName("lastModified")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? LastModified { get; set; }
 
     [JsonPropertyName("hours")]
@@ -79,10 +81,12 @@ public class CeloxisTimeEntry : CeloxisModel
     public string YearWeek { get; set; }
 
     [JsonPropertyName("approvedOn")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? ApprovedOn { get; set; }
 
     [JsonPropertyName("invoicedOn")]
-    public object InvoicedOn { get; set; }
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
+    public DateTimeOffset? InvoicedOn { get; set; }
 
     [JsonPropertyName("approvals")]
     public List<CeloxisTimeEntryApproval> Approvals { get; set; }
@@ -122,4 +126,7 @@ public class CeloxisTimeEntry : CeloxisModel
 
     [JsonPropertyName("associations")]
     public CeloxisTimeEntryAssociations Associations { get; set; }
+
+    [JsonExtensionData]
+    public Dictionary<string, object> AdditionalProperties { get; set; } = new();
 }

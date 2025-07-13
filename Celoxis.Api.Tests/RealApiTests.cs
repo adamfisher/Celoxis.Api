@@ -12,7 +12,7 @@ namespace Celoxis.Api.Tests
 
         public RealApiTests()
         {
-            var apiKey = "Dwnah1Sg2JL95AvIrUyEbcarkjEQTGV5sJVjmfXx";
+            var apiKey = "TOKEN_HERE";
             _client = new CeloxisClient(apiKey);
         }
 

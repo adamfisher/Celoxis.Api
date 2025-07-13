@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Bogus;
 using Celoxis.Api.Models;
@@ -24,7 +25,7 @@ public sealed class CeloxisTimeEntryFaker : Faker<CeloxisTimeEntry>
             e.DateYear = e.Date.Value.Year.ToString();
             e.DateFiscalYear = e.Date.Value.Year.ToString();
             e.LastModified = e.Created;
-            e.Hours = Math.Round(f.Random.Decimal(0.5m, 8m), 1);
+            e.Hours = (double)Math.Round(f.Random.Decimal(0.5m, 8m), 1);
             e.Comments = f.Lorem.Sentence();
             e.TimeCode = f.PickRandom("Default", "Meeting", "Development", "Testing");
             e.State = f.PickRandom(States.TimeEntry.Saved, States.TimeEntry.PendingApproval, States.TimeEntry.Approved);
@@ -32,15 +33,31 @@ public sealed class CeloxisTimeEntryFaker : Faker<CeloxisTimeEntry>
             e.YearWeek = $"{e.Date:yyyy}-W{weekOfYear:D2}";
             e.ApprovedOn = f.Random.Bool(0.3f) ? f.Date.Recent(2) : null;
             e.InvoicedOn = null;
-            e.Approvals = "";
+            e.Approvals =
+            [
+                new CeloxisTimeEntryApproval
+                {
+                    Approved = f.Random.Bool(0.7f),
+                    By = f.Person.FullName,
+                    Date = f.Date.Recent(7),
+                }
+            ];
             e.IsBillable = f.Random.Bool(0.8f) ? "Yes" : "No";
-            e.BillRate = f.Random.Number(100, 300);
-            e.Revenue = e.IsBillable == "Yes" ? e.Hours * e.BillRate : 0;
+            e.BillRate = f.Random.Number(100, 300).ToString();
+            e.Revenue = e.IsBillable == "Yes" ? (e.Hours * int.Parse(e.BillRate)).ToString() : "0";
             e.IsCostable = "Yes";
-            e.CostRate = f.Random.Number(50, 150);
-            e.Cost = e.Hours * e.CostRate;
+            e.CostRate = f.Random.Number(50, 150).ToString();
+            e.Cost = (e.Hours * int.Parse(e.CostRate)).ToString();
             e.User = $"https://app.celoxis.com/psa/api/v2/timeEntries/{e.Id}/user";
-            e.Approver = $"https://app.celoxis.com/psa/api/v2/timeEntries/{e.Id}/approver";
             e.Project = $"https://app.celoxis.com/psa/api/v2/timeEntries/{e.Id}/project";
+            e.Approvals =
+            [
+                new CeloxisTimeEntryApproval
+                {
+                    Approved = f.Random.Bool(0.7f),
+                    By = f.Person.FullName,
+                    Date = f.Date.Recent(7),
+                }
+            ];
         });
 }

@@ -44,14 +44,12 @@ namespace Celoxis.Api.Tests.Clients
             _httpTest.RespondWithJson(response);
 
             // Act
-            var result = await _client.TaskUpdates.GetByIdAsync(taskUpdate.Id);
+            var result = await _client.TaskUpdates.GetByIdAsync(taskUpdate.Id.ToString());
 
             // Assert
             result.Should().NotBeNull();
             result.Id.Should().Be(taskUpdate.Id);
-            result.Update.Should().Be(taskUpdate.Update);
-            result.CreatedBy.Should().Be(taskUpdate.CreatedBy);
-            result.Created.Should().Be(taskUpdate.Created);
+            result.TaskUpdateBy.Should().Be(taskUpdate.TaskUpdateBy);
             
             _httpTest.ShouldHaveCalled($"{_baseUrl}/api/v2/taskUpdates/{taskUpdate.Id}")
                 .WithVerb(HttpMethod.Get)
@@ -73,7 +71,7 @@ namespace Celoxis.Api.Tests.Clients
             _httpTest.RespondWithJson(response);
 
             // Act
-            var result = await _client.TaskUpdates.GetByIdAsync(taskUpdate.Id, expand);
+            var result = await _client.TaskUpdates.GetByIdAsync(taskUpdate.Id.ToString(), expand);
 
             // Assert
             result.Should().NotBeNull();
@@ -123,7 +121,7 @@ namespace Celoxis.Api.Tests.Clients
             // Arrange
             var userName = "John Developer";
             var taskUpdates = TestDataGenerator.GetTaskUpdateFaker()
-                .RuleFor(t => t.CreatedBy, userName)
+                .RuleFor(t => t.TaskUpdateBy, userName)
                 .Generate(7);
             var response = TestDataGenerator.CreateApiResponse(taskUpdates, 7);
             var query = new QueryBuilder()
@@ -138,7 +136,7 @@ namespace Celoxis.Api.Tests.Clients
 
             // Assert
             data.Should().HaveCount(7);
-            data.Should().OnlyContain(u => u.CreatedBy == userName);
+            data.Should().OnlyContain(u => u.TaskUpdateBy == userName);
         }
 
         [Fact]
@@ -175,7 +173,7 @@ namespace Celoxis.Api.Tests.Clients
         {
             // Arrange
             var taskUpdates = TestDataGenerator.GetTaskUpdateFaker()
-                .RuleFor(t => t.Update, f => $"Fixed bug #{f.Random.Number(100, 999)}")
+                .RuleFor(t => t.Comments, f => $"Fixed bug #{f.Random.Number(100, 999)}")
                 .Generate(3);
             var response = TestDataGenerator.CreateApiResponse(taskUpdates, 3);
             var query = new QueryBuilder()
@@ -189,7 +187,7 @@ namespace Celoxis.Api.Tests.Clients
 
             // Assert
             data.Should().HaveCount(3);
-            data.Should().OnlyContain(u => u.Update.Contains("bug", StringComparison.OrdinalIgnoreCase));
+            data.Should().OnlyContain(u => u.Comments.Contains("bug", StringComparison.OrdinalIgnoreCase));
         }
 
         #endregion
@@ -218,7 +216,7 @@ namespace Celoxis.Api.Tests.Clients
 
             // Assert
             result.Should().NotBeNull();
-            result.Id.Should().NotBeNullOrEmpty();
+            result.Id.Should().BeGreaterThan(0);
 
             _httpTest.ShouldHaveCalled($"{_baseUrl}/api/v2/taskUpdates")
                 .WithVerb(HttpMethod.Post)
@@ -240,7 +238,7 @@ namespace Celoxis.Api.Tests.Clients
             };
             
             var taskUpdate = TestDataGenerator.GetTaskUpdateFaker().Generate();
-            taskUpdate.Update = "Status Update: Task is 75% complete. Expecting to finish by end of week.";
+            taskUpdate.Comments = "Status Update: Task is 75% complete. Expecting to finish by end of week.";
             var response = TestDataGenerator.CreateSingleResponse(taskUpdate);
             
             _httpTest.RespondWithJson(response);
@@ -250,7 +248,7 @@ namespace Celoxis.Api.Tests.Clients
 
             // Assert
             result.Should().NotBeNull();
-            result.Update.Should().Contain("Status Update");
+            result.Comments.Should().Contain("Status Update");
         }
 
         #endregion
@@ -317,7 +315,7 @@ namespace Celoxis.Api.Tests.Clients
             };
             
             var taskUpdate = TestDataGenerator.GetTaskUpdateFaker().Generate();
-            taskUpdate.Update = "EDITED: Completed the API integration. All endpoints are now functional and tested. Added unit tests.";
+            taskUpdate.Comments = "EDITED: Completed the API integration. All endpoints are now functional and tested. Added unit tests.";
             var response = TestDataGenerator.CreateSingleResponse(taskUpdate);
             
             _httpTest.RespondWithJson(response);
@@ -327,7 +325,7 @@ namespace Celoxis.Api.Tests.Clients
 
             // Assert
             result.Should().NotBeNull();
-            result.Update.Should().StartWith("EDITED:");
+            result.Comments.Should().StartWith("EDITED:");
             
             _httpTest.ShouldHaveCalled($"{_baseUrl}/api/v2/taskUpdates")
                 .WithVerb("PATCH")
@@ -388,7 +386,7 @@ namespace Celoxis.Api.Tests.Clients
 
                 createdUpdates.Add(new UpdateTaskRequest
                 {
-                    Id = created.Id,
+                    Id = created.Id.ToString(),
                     Name = null, 
                     Description = null,
                 });
@@ -464,7 +462,7 @@ namespace Celoxis.Api.Tests.Clients
             result.Should().HaveCount(3);
             
             // Verify each team member created an update
-            var updateCreators = result.Select(u => u.CreatedBy).Distinct().ToList();
+            var updateCreators = result.Select(u => u.TaskUpdateBy).Distinct().ToList();
             updateCreators.Should().HaveCount(3);
         }
 

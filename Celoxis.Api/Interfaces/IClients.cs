@@ -30,4 +30,4 @@ public interface IExpensesClient : IEntityClient<CeloxisExpense> { }
 /// <summary>
 /// Interface for task update operations
 /// </summary>
-public interface ITaskUpdatesClient : IEntityClient<TaskUpdate> { }
+public interface ITaskUpdatesClient : IEntityClient<CeloxisTaskUpdate> { }

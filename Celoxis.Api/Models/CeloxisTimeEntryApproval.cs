@@ -12,5 +12,6 @@ public partial class CeloxisTimeEntryApproval
     public string By { get; set; }
 
     [JsonPropertyName("date")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? Date { get; set; }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Text.Json.Serialization;
 
 namespace Celoxis.Api.Models;
@@ -6,14 +5,14 @@ namespace Celoxis.Api.Models;
 public partial class CeloxisTimeEntryAssociations
 {
     [JsonPropertyName("user")]
-    public Uri User { get; set; }
+    public string User { get; set; }
 
     [JsonPropertyName("approver")]
-    public Uri Approver { get; set; }
+    public string Approver { get; set; }
 
     [JsonPropertyName("workItem")]
-    public Uri WorkItem { get; set; }
+    public string WorkItem { get; set; }
 
     [JsonPropertyName("project")]
-    public Uri Project { get; set; }
+    public string Project { get; set; }
 }

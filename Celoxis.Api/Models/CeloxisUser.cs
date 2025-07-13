@@ -10,7 +10,7 @@ public class CeloxisUser
     public string Id { get; set; }
 
     [JsonPropertyName("url")]
-    public Uri Url { get; set; }
+    public Uri? Url { get; set; }
 
     [JsonPropertyName("name")]
     public string Name { get; set; }
@@ -25,7 +25,7 @@ public class CeloxisUser
     public string Username { get; set; }
 
     [JsonPropertyName("lastAccessed")]
-    [JsonConverter(typeof(FlexibleDateTimeOffsetConverter))]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? LastAccessed { get; set; }
 
     [JsonPropertyName("workCalendar")]
