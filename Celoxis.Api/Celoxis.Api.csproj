@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    
+    <!-- NuGet Package Metadata -->
+    <PackageId>Celoxis.Api</PackageId>
+    <Version>2.0.0</Version>
+    <Company>Octane Software</Company>
+    <Description>A .NET client library for the Celoxis API v2, providing easy access to entities.</Description>
+    <PackageTags>celoxis;api;client;project-management;time-tracking</PackageTags>
+    <PackageProjectUrl>https://github.com/adamfisher/Celoxis.Api</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/adamfisher/Celoxis.Api</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>celoxis-logo.png</PackageIcon>
+    <Copyright>Copyright © 2025 Octane Software</Copyright>
+    <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
+    
+    <!-- Build settings -->
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flurl.Http" Version="4.0.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.7" />
+    <PackageReference Include="System.Text.Json" Version="9.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\LICENSE" Pack="true" PackagePath="\" />
+    <None Include="..\celoxis-logo.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>
