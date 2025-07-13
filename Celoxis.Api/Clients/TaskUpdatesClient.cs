@@ -6,7 +6,7 @@ namespace Celoxis.Api.Clients
     /// <summary>
     /// Client for task update operations
     /// </summary>
-    public class TaskUpdatesClient : EntityClient<TaskUpdate>, ITaskUpdatesClient
+    public class TaskUpdatesClient : EntityClient<CeloxisTaskUpdate>, ITaskUpdatesClient
     {
         /// <inheritdoc />
         protected override string EntityPath => "/api/v2/taskUpdates";
