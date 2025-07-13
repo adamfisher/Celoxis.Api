@@ -10,7 +10,7 @@ public sealed class CeloxisUserFaker : Faker<CeloxisUser>
         Rules((f, u) =>
         {
             u.Id = f.Random.Number(100000, 999999).ToString();
-            u.Url = $"https://app.celoxis.com/psa/users/{u.Id}";
+            u.Url = new Uri($"https://app.celoxis.com/psa/users/{u.Id}");
             u.Name = f.Name.FullName();
             u.Email = f.Internet.Email(u.Name);
             u.Phone = f.Phone.PhoneNumber();

@@ -77,7 +77,7 @@ public sealed class CeloxisProjectFaker : Faker<CeloxisProject>
             var teamMembers = f.PickRandom([f.Person.FullName, f.Person.FullName, f.Person.FullName, f.Person.FullName], 2);
             p.Team = string.Join(", ", teamMembers);
             
-            p.ProjectAssociations = new ProjectAssociations
+            p.CeloxisProjectAssociations = new CeloxisProjectAssociations
             {
                 Manager = new Uri($"https://app.celoxis.com/psa//api/v2/projects/{p.Id}/manager"),
                 Clients = new Uri($"https://app.celoxis.com/psa//api/v2/projects/{p.Id}/clients"),

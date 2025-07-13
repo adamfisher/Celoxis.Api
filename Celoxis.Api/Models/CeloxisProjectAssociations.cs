@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Celoxis.Api.Models;
 
-public partial class ProjectAssociations
+public partial class CeloxisProjectAssociations
 {
     [JsonPropertyName("manager")]
     public Uri Manager { get; set; }

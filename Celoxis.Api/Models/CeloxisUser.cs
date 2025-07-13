@@ -4,13 +4,13 @@ using System.Text.Json.Serialization;
 
 namespace Celoxis.Api.Models;
 
-public class CeloxisUser : CeloxisModel
+public class CeloxisUser
 {
     [JsonPropertyName("id")]
     public string Id { get; set; }
 
     [JsonPropertyName("url")]
-    public string Url { get; set; }
+    public Uri Url { get; set; }
 
     [JsonPropertyName("name")]
     public string Name { get; set; }
@@ -25,6 +25,7 @@ public class CeloxisUser : CeloxisModel
     public string Username { get; set; }
 
     [JsonPropertyName("lastAccessed")]
+    [JsonConverter(typeof(FlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? LastAccessed { get; set; }
 
     [JsonPropertyName("workCalendar")]
@@ -59,4 +60,7 @@ public class CeloxisUser : CeloxisModel
 
     [JsonPropertyName("primaryJobRole")]
     public string PrimaryJobRole { get; set; }
+
+    [JsonExtensionData]
+    public Dictionary<string, object> AdditionalProperties { get; set; } = new();
 }

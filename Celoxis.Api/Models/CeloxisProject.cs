@@ -303,5 +303,5 @@ public partial class CeloxisProject : CeloxisModel
     public string Team { get; set; }
 
     [JsonPropertyName("associations")]
-    public ProjectAssociations ProjectAssociations { get; set; }
+    public CeloxisProjectAssociations CeloxisProjectAssociations { get; set; }
 }

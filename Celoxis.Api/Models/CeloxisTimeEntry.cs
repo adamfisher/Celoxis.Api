@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Celoxis.Api.Models;
 
@@ -7,148 +9,117 @@ namespace Celoxis.Api.Models;
 /// </summary>
 public class CeloxisTimeEntry : CeloxisModel
 {
-    /// <summary>
-    /// Time entry ID
-    /// </summary>
-    public string Id { get; set; } = string.Empty;
+    [JsonPropertyName("id")]
+    public string Id { get; set; }
 
-    /// <summary>
-    /// Time entry URL
-    /// </summary>
-    public string Url { get; set; } = string.Empty;
+    [JsonPropertyName("url")]
+    public Uri Url { get; set; }
 
-    /// <summary>
-    /// Accounting code
-    /// </summary>
-    public string AccountingCode { get; set; } = string.Empty;
+    [JsonPropertyName("quickBooks Online Id")]
+    public string QuickBooksOnlineId { get; set; }
 
-    /// <summary>
-    /// Date created
-    /// </summary>
+    [JsonPropertyName("xaTs")]
+    public DateTimeOffset? XaTs { get; set; }
+
+    [JsonPropertyName("user")]
+    public string User { get; set; }
+
+    [JsonPropertyName("creator")]
+    public string Creator { get; set; }
+
+    [JsonPropertyName("invoicedBy")]
+    public string InvoicedBy { get; set; }
+
+    [JsonPropertyName("accountingCode")]
+    public string AccountingCode { get; set; }
+
+    [JsonPropertyName("created")]
     public DateTimeOffset? Created { get; set; }
 
-    /// <summary>
-    /// Date of time entry
-    /// </summary>
+    [JsonPropertyName("date")]
     public DateTimeOffset? Date { get; set; }
 
-    /// <summary>
-    /// Week of date
-    /// </summary>
-    public string DateWeek { get; set; } = string.Empty;
+    [JsonPropertyName("dateWeek")]
+    public string DateWeek { get; set; }
 
-    /// <summary>
-    /// Month of date
-    /// </summary>
-    public string DateMonth { get; set; } = string.Empty;
+    [JsonPropertyName("dateWeekDate")]
+    public DateTimeOffset? DateWeekDate { get; set; }
 
-    /// <summary>
-    /// Quarter of date
-    /// </summary>
-    public string DateQuarter { get; set; } = string.Empty;
+    [JsonPropertyName("dateMonth")]
+    public string DateMonth { get; set; }
 
-    /// <summary>
-    /// Year of date
-    /// </summary>
-    public string DateYear { get; set; } = string.Empty;
+    [JsonPropertyName("dateQuarter")]
+    public string DateQuarter { get; set; }
 
-    /// <summary>
-    /// Fiscal year of date
-    /// </summary>
-    public string DateFiscalYear { get; set; } = string.Empty;
+    [JsonPropertyName("dateYear")]
+    public string DateYear { get; set; }
 
-    /// <summary>
-    /// Date last modified
-    /// </summary>
+    [JsonPropertyName("dateFiscalYear")]
+    public string DateFiscalYear { get; set; }
+
+    [JsonPropertyName("lastModified")]
     public DateTimeOffset? LastModified { get; set; }
 
-    /// <summary>
-    /// Number of hours
-    /// </summary>
-    public decimal Hours { get; set; }
+    [JsonPropertyName("hours")]
+    public double Hours { get; set; }
 
-    /// <summary>
-    /// Comments
-    /// </summary>
-    public string Comments { get; set; } = string.Empty;
+    [JsonPropertyName("comments")]
+    public string Comments { get; set; }
 
-    /// <summary>
-    /// Time code
-    /// </summary>
-    public string TimeCode { get; set; } = string.Empty;
+    [JsonPropertyName("timeCode")]
+    public string TimeCode { get; set; }
 
-    /// <summary>
-    /// State
-    /// </summary>
-    public string State { get; set; } = string.Empty;
+    [JsonPropertyName("state")]
+    public string State { get; set; }
 
-    /// <summary>
-    /// Work item URL or data (when expanded)
-    /// </summary>
-    public object WorkItem { get; set; } = string.Empty;
+    [JsonPropertyName("workItem")]
+    public string WorkItem { get; set; }
 
-    /// <summary>
-    /// Year-week
-    /// </summary>
-    public string YearWeek { get; set; } = string.Empty;
+    [JsonPropertyName("yearWeek")]
+    public string YearWeek { get; set; }
 
-    /// <summary>
-    /// Date approved
-    /// </summary>
+    [JsonPropertyName("approvedOn")]
     public DateTimeOffset? ApprovedOn { get; set; }
 
-    /// <summary>
-    /// Date invoiced
-    /// </summary>
-    public DateTimeOffset? InvoicedOn { get; set; }
+    [JsonPropertyName("invoicedOn")]
+    public object InvoicedOn { get; set; }
 
-    /// <summary>
-    /// Approvals
-    /// </summary>
-    public string Approvals { get; set; } = string.Empty;
+    [JsonPropertyName("approvals")]
+    public List<CeloxisTimeEntryApproval> Approvals { get; set; }
 
-    /// <summary>
-    /// Is billable
-    /// </summary>
-    public string IsBillable { get; set; } = string.Empty;
+    [JsonPropertyName("isBillable")]
+    public string IsBillable { get; set; }
 
-    /// <summary>
-    /// Bill rate
-    /// </summary>
-    public decimal BillRate { get; set; }
+    [JsonPropertyName("billRate")]
+    public string BillRate { get; set; }
 
-    /// <summary>
-    /// Revenue
-    /// </summary>
-    public decimal Revenue { get; set; }
+    [JsonPropertyName("revenue")]
+    public string Revenue { get; set; }
 
-    /// <summary>
-    /// Is costable
-    /// </summary>
-    public string IsCostable { get; set; } = string.Empty;
+    [JsonPropertyName("isCostable")]
+    public string IsCostable { get; set; }
 
-    /// <summary>
-    /// Cost rate
-    /// </summary>
-    public decimal CostRate { get; set; }
+    [JsonPropertyName("costRate")]
+    public string CostRate { get; set; }
 
-    /// <summary>
-    /// Cost
-    /// </summary>
-    public decimal Cost { get; set; }
+    [JsonPropertyName("cost")]
+    public string Cost { get; set; }
 
-    /// <summary>
-    /// User URL or data (when expanded)
-    /// </summary>
-    public object User { get; set; } = string.Empty;
+    [JsonPropertyName("externalKey")]
+    public string ExternalKey { get; set; }
 
-    /// <summary>
-    /// Approver URL or data (when expanded)
-    /// </summary>
-    public object Approver { get; set; } = string.Empty;
+    [JsonPropertyName("timeType")]
+    public string TimeType { get; set; }
 
-    /// <summary>
-    /// CeloxisProject URL or data (when expanded)
-    /// </summary>
-    public object Project { get; set; } = string.Empty;
+    [JsonPropertyName("task")]
+    public string Task { get; set; }
+
+    [JsonPropertyName("app")]
+    public string App { get; set; }
+
+    [JsonPropertyName("project")]
+    public string Project { get; set; }
+
+    [JsonPropertyName("associations")]
+    public CeloxisTimeEntryAssociations Associations { get; set; }
 }

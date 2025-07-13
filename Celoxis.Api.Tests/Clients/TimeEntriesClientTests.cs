@@ -68,8 +68,8 @@ namespace Celoxis.Api.Tests.Clients
             var project = TestDataGenerator.GetProjectFaker().Generate();
             
             // Simulate expanded response
-            timeEntry.User = user;
-            timeEntry.Project = project;
+            timeEntry.User = user.Name;
+            timeEntry.Project = project.Name;
             
             var response = TestDataGenerator.CreateSingleResponse(timeEntry);
             var expand = new List<string> { "user", "project", "workItem" };
@@ -289,7 +289,7 @@ namespace Celoxis.Api.Tests.Clients
             };
             
             var timeEntry = TestDataGenerator.GetTimeEntryFaker().Generate();
-            timeEntry.Hours = 7.5m;
+            timeEntry.Hours = 7.5;
             timeEntry.Comments = "Updated: Added extra time for debugging";
             var response = TestDataGenerator.CreateSingleResponse(timeEntry);
             
@@ -300,7 +300,7 @@ namespace Celoxis.Api.Tests.Clients
 
             // Assert
             result.Should().NotBeNull();
-            result.Hours.Should().Be(7.5m);
+            result.Hours.Should().Be(7.5);
             result.Comments.Should().Contain("Updated");
             
             _httpTest.ShouldHaveCalled($"{_baseUrl}/api/v2/timeEntries")
@@ -362,7 +362,7 @@ namespace Celoxis.Api.Tests.Clients
             // Set hours to match the request
             foreach (var entry in timeEntries)
             {
-                entry.Hours = 8m;
+                entry.Hours = 8;
             }
             var response = TestDataGenerator.CreateApiResponse(timeEntries);
             
@@ -373,7 +373,7 @@ namespace Celoxis.Api.Tests.Clients
 
             // Assert
             result.Should().HaveCount(5);
-            result.Sum(e => e.Hours).Should().Be(40m); // Full work week
+            result.Sum(e => e.Hours).Should().Be(40); // Full work week
         }
 
         [Fact]
@@ -401,8 +401,8 @@ namespace Celoxis.Api.Tests.Clients
             // Calculate totals
             var totalHours = data.Sum(e => e.Hours);
             var billableHours = data.Where(e => e.IsBillable == "Yes").Sum(e => e.Hours);
-            var totalRevenue = data.Sum(e => e.Revenue);
-            var totalCost = data.Sum(e => e.Cost);
+            var totalRevenue = data.Sum(e => int.Parse(e.Revenue));
+            var totalCost = data.Sum(e => int.Parse(e.Cost));
             
             totalHours.Should().BeGreaterThan(0);
             billableHours.Should().BeGreaterThan(0);
