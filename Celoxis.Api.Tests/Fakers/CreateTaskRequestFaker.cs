@@ -11,7 +11,7 @@ public sealed class CreateTaskRequestFaker : Faker<CreateTaskRequest>
         {
             r.Project = f.Random.AlphaNumeric(8).ToUpper();
             r.Name = f.Hacker.Phrase();
-            r.PlannedEffort = f.Random.Number(8, 40).ToString();
+            r.PlannedEffort = f.Random.Number(8, 40);
             r.Duration = f.Random.Number(1, 5) + "d";
             r.Resources = f.Name.FullName();
             r.PlannedStart = f.Date.Soon(14);

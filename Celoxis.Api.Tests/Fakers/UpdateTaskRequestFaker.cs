@@ -12,7 +12,7 @@ public sealed class UpdateTaskRequestFaker : Faker<UpdateTaskRequest>
             r.Id = f.Random.Number(100000, 999999).ToString();
             r.Name = f.Hacker.Phrase();
             r.Description = f.Lorem.Sentence();
-            r.PlannedEffort = f.Random.Number(8, 40).ToString();
+            r.PlannedEffort = f.Random.Number(8, 40);
             r.Duration = f.Random.Number(1, 5) + "d";
             r.Resources = f.Name.FullName();
             r.PlannedStart = f.Date.Soon(14);
@@ -24,11 +24,11 @@ public sealed class UpdateTaskRequestFaker : Faker<UpdateTaskRequest>
             r.Budget = f.Random.Decimal(0, 8000);
             r.FixedPrice = f.Random.Decimal(0, 5000);
             r.ActualPercentComplete = f.Random.Number(0, 100);
-            r.RemainingEffort = f.Random.Number(0, 40).ToString();
-            r.Milestone = f.Random.Bool(0.1f) ? "Yes" : "No";
-            r.IsManuallyScheduled = "No";
-            r.IsTimeAllowed = "Yes";
-            r.ShowInTimeline = "No";
+            r.RemainingEffort = f.Random.Number(0, 40);
+            r.Milestone = f.Random.Bool(0.1f);
+            r.IsManuallyScheduled = false;
+            r.IsTimeAllowed = true;
+            r.ShowInTimeline = false;
             r.Color = f.Internet.Color();
         });
 }

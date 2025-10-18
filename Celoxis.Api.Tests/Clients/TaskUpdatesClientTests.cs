@@ -63,7 +63,7 @@ namespace Celoxis.Api.Tests.Clients
             // Arrange
             var taskUpdate = TestDataGenerator.GetTaskUpdateFaker().Generate();
             var task = TestDataGenerator.GetTaskFaker().Generate();
-            taskUpdate.Task = task;
+            taskUpdate.Task = new Association<CeloxisTask>() { Data = task };
             
             var response = TestDataGenerator.CreateSingleResponse(taskUpdate);
             var expand = new List<string> { "task" };
@@ -216,7 +216,7 @@ namespace Celoxis.Api.Tests.Clients
 
             // Assert
             result.Should().NotBeNull();
-            result.Id.Should().BeGreaterThan(0);
+            result.Id.Should().NotBeNullOrEmpty();
 
             _httpTest.ShouldHaveCalled($"{_baseUrl}/api/v2/taskUpdates")
                 .WithVerb(HttpMethod.Post)

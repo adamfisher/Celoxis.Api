@@ -66,7 +66,7 @@ namespace Celoxis.Api.Tests.Clients
             // Arrange
             var app = TestDataGenerator.GetAppFaker().Generate();
             var user = TestDataGenerator.GetUserFaker().Generate();
-            app.Assignee = user;
+            app.Assignee = user.Username;
             
             var response = TestDataGenerator.CreateSingleResponse(app);
             var expand = new List<string> { "assignee", "project" };
@@ -124,7 +124,7 @@ namespace Celoxis.Api.Tests.Clients
         {
             // Arrange
             var apps = TestDataGenerator.GetAppFaker()
-                .RuleFor(a => a.Open, "Yes")
+                .RuleFor(a => a.Open, true)
                 .RuleFor(a => a.State, f => f.PickRandom("Reported", "In Progress"))
                 .Generate(7);
             var response = TestDataGenerator.CreateApiResponse(apps, 7);
@@ -140,7 +140,7 @@ namespace Celoxis.Api.Tests.Clients
 
             // Assert
             data.Should().HaveCount(7);
-            data.Should().OnlyContain(a => a.Open == "Yes");
+            data.Should().OnlyContain(a => a.Open == true);
         }
 
         [Fact]
@@ -392,7 +392,7 @@ namespace Celoxis.Api.Tests.Clients
             var risks = TestDataGenerator.GetAppFaker()
                 .RuleFor(a => a.App, "Risk")
                 .RuleFor(a => a.Priority, f => f.PickRandom(Priorities.VeryHigh, Priorities.High))
-                .RuleFor(a => a.Open, "Yes")
+                .RuleFor(a => a.Open, true)
                 .Generate(8);
             var response = TestDataGenerator.CreateApiResponse(risks, 8);
             

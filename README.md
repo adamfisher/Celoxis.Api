@@ -2,10 +2,6 @@
 
 A .NET client library for the [Celoxis API v2](https://www.celoxis.com/), providing easy access to projects, tasks, time entries, and more. Built with `Flurl.Http` for a clean, testable HTTP client experience.
 
-# ⚠️ This project is still under development
-
-This project has not been published to Nuget yet because not all tests are passing yet. There are still outstanding issues with mismatched models from the API docs and the actual responses received from the API. The `RealApiTests` are used to test the real endpoints and see serialization working. Pull requests are welcome.
-
 ## Features
 
 - Full support for Celoxis API v2 endpoints
@@ -13,7 +9,6 @@ This project has not been published to Nuget yet because not all tests are passi
 - Fluent query builder for complex filtering
 - Async/await support throughout
 - Built on Flurl.Http for easy testing and mocking
-- Comprehensive XML documentation
 - Built for .NET 6+
 
 ## Installation

@@ -17,10 +17,10 @@ public sealed class CeloxisUserFaker : Faker<CeloxisUser>
             u.Username = f.Internet.UserName(u.Name);
             u.LastAccessed = f.Date.Recent();
             u.WorkCalendar = "Default";
-            u.Admin = f.Random.Bool(0.1f) ? "Yes" : "No";
+            u.Admin = f.Random.Bool(0.1f);
             u.ReportingManager = f.Random.Bool(0.8f) ? f.Name.FullName() : "";
-            u.BillRate = f.Random.Number(100, 300).ToString();
-            u.CostRate = f.Random.Number(50, 150).ToString();
+            u.BillRate = f.Random.Number(100, 300);
+            u.CostRate = f.Random.Number(50, 150);
             u.Roles = "Staff";
             u.PrimaryJobRole = f.Name.JobTitle();
         });

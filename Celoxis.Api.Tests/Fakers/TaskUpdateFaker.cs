@@ -10,14 +10,14 @@ public sealed class TaskUpdateFaker : Faker<CeloxisTaskUpdate>
     public TaskUpdateFaker() =>
         Rules((f, t) =>
         {
-            t.Id = f.Random.Number(100000, 999999);
+            t.Id = f.Random.Number(100000, 999999).ToString();
             t.Url = new Uri($"https://app.celoxis.com/psa/taskupdates/{t.Id}");
-            t.Project = new DataFieldWrapper<CeloxisProject>(TestDataGenerator.GetProjectFaker().Generate());
-            t.Task = new DataFieldWrapper<CeloxisTask>(TestDataGenerator.GetTaskFaker().Generate());
+            t.Project = new Association<CeloxisProject>() { Data = TestDataGenerator.GetProjectFaker().Generate() };
+            t.Task = new Association<CeloxisTask>() { Data = TestDataGenerator.GetTaskFaker().Generate() };
             t.TaskUpdateBy = f.Name.FullName();
             t.Date = f.Date.RecentOffset();
             t.Comments = f.Lorem.Sentence();
-            t.PercentComplete = f.Random.Number(0, 100).ToString();
+            t.PercentComplete = f.Random.Number(0, 100);
             t.ActualStart = f.Random.Bool() ? f.Date.PastOffset() : null;
             t.ActualFinish = f.Random.Bool() ? f.Date.PastOffset() : null;
             t.Associations = new CeloxisTaskUpdateAssociations

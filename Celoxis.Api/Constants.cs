@@ -23,6 +23,13 @@ namespace Celoxis.Api
         public const string LastYear = "Last Year";
         public const string NextYear = "Next Year";
 
+        public const string Last3Days = "-3d to Today";
+        public const string Last7Days = "-7d to Today";
+        public const string Last30Days = "-30d to Today";
+        public const string Next3Days = "Today to +3d";
+        public const string Next7Days = "Today to +7d";
+        public const string Next30Days = "Today to +30d";
+
         /// <summary>
         /// Create a date range filter
         /// </summary>
@@ -37,6 +44,16 @@ namespace Celoxis.Api
         /// Create a filter for the next N days
         /// </summary>
         public static string NextNDays(int days) => $"Today to +{days}d";
+
+        /// <summary>
+        /// Create a filter for the last N weeks
+        /// </summary>
+        public static string LastNWeeks(int weeks) => $"-{weeks}w to Today";
+
+        /// <summary>
+        /// Create a filter for the next N months
+        /// </summary>
+        public static string NextNMonths(int months) => $"Today to +{months}m";
     }
 
     /// <summary>
@@ -49,13 +66,13 @@ namespace Celoxis.Api
         /// </summary>
         public static class Project
         {
-            public const string Draft = "173091";
-            public const string Active = "173092";
-            public const string OnHold = "173093";
-            public const string Completed = "173094";
-            public const string Cancelled = "173095";
-            public const string Opportunity = "182681";
-            public const string TestData = "182811";
+            public const string Draft = "Draft";
+            public const string Active = "Active";
+            public const string OnHold = "On Hold";
+            public const string Completed = "Completed";
+            public const string Cancelled = "Cancelled";
+            public const string Opportunity = "Opportunity";
+            public const string TestData = "Test Data";
         }
 
         /// <summary>
@@ -75,11 +92,11 @@ namespace Celoxis.Api
     /// </summary>
     public static class Priorities
     {
-        public const string VeryHigh = "1";
-        public const string High = "2";
-        public const string Normal = "3";
-        public const string Low = "4";
-        public const string VeryLow = "5";
+        public const string VeryHigh = "VERY_HIGH";
+        public const string High = "HIGH";
+        public const string Normal = "NORMAL";
+        public const string Low = "LOW";
+        public const string VeryLow = "VERY_LOW";
     }
 
     /// <summary>
@@ -87,9 +104,9 @@ namespace Celoxis.Api
     /// </summary>
     public static class BillingTypes
     {
-        public const string NoBilling = "0";
-        public const string FixedPrice = "1";
-        public const string TimeAndMaterial = "2";
+        public const string None = "NONE";
+        public const string FixedPrice = "FIXED_PRICE";
+        public const string TimeAndMaterial = "TNM";
     }
 
     /// <summary>

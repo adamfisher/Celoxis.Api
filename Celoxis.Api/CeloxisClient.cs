@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Celoxis.Api.Clients;
 using Celoxis.Api.Exceptions;
 using Celoxis.Api.Interfaces;
+using Celoxis.Api.Models;
 using Flurl;
 using Flurl.Http;
 
@@ -123,6 +124,17 @@ namespace Celoxis.Api
         {
             var url = $"{_baseUrl}{endpoint}";
             
+            // Validate request if it implements IValidatable
+            if (data is IValidatable validatable)
+            {
+                var validationResult = validatable.Validate();
+                if (!validationResult.IsValid)
+                {
+                    var errorMessage = string.Join("; ", validationResult.Errors.Select(e => $"{e.Property}: {e.Message}"));
+                    throw new CeloxisApiException($"Validation failed: {errorMessage}", HttpStatusCode.BadRequest, errorMessage);
+                }
+            }
+            
             var response = await _flurlClient
                 .Request(url)
                 .PostJsonAsync(data);
@@ -139,6 +151,17 @@ namespace Celoxis.Api
         internal async Task<T> PatchAsync<T>(string endpoint, object data)
         {
             var url = $"{_baseUrl}{endpoint}";
+            
+            // Validate request if it implements IValidatable
+            if (data is IValidatable validatable)
+            {
+                var validationResult = validatable.Validate();
+                if (!validationResult.IsValid)
+                {
+                    var errorMessage = string.Join("; ", validationResult.Errors.Select(e => $"{e.Property}: {e.Message}"));
+                    throw new CeloxisApiException($"Validation failed: {errorMessage}", HttpStatusCode.BadRequest, errorMessage);
+                }
+            }
             
             var response = await _flurlClient
                 .Request(url)

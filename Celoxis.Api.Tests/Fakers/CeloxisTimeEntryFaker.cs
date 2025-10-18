@@ -25,11 +25,11 @@ public sealed class CeloxisTimeEntryFaker : Faker<CeloxisTimeEntry>
             e.DateYear = e.Date.Value.Year.ToString();
             e.DateFiscalYear = e.Date.Value.Year.ToString();
             e.LastModified = e.Created;
-            e.Hours = (double)Math.Round(f.Random.Decimal(0.5m, 8m), 1);
+            e.Hours = Math.Round(f.Random.Decimal(0.5m, 8m), 1);
             e.Comments = f.Lorem.Sentence();
             e.TimeCode = f.PickRandom("Default", "Meeting", "Development", "Testing");
             e.State = f.PickRandom(States.TimeEntry.Saved, States.TimeEntry.PendingApproval, States.TimeEntry.Approved);
-            e.WorkItem = $"https://app.celoxis.com/psa/api/v2/timeEntries/{e.Id}/workItem";
+            e.WorkItem = new Association<CeloxisTask> { Url = $"https://app.celoxis.com/psa/api/v2/timeEntries/{e.Id}/workItem" };
             e.YearWeek = $"{e.Date:yyyy}-W{weekOfYear:D2}";
             e.ApprovedOn = f.Random.Bool(0.3f) ? f.Date.Recent(2) : null;
             e.InvoicedOn = null;
@@ -42,14 +42,16 @@ public sealed class CeloxisTimeEntryFaker : Faker<CeloxisTimeEntry>
                     Date = f.Date.Recent(7),
                 }
             ];
-            e.IsBillable = f.Random.Bool(0.8f) ? "Yes" : "No";
-            e.BillRate = f.Random.Number(100, 300).ToString();
-            e.Revenue = e.IsBillable == "Yes" ? (e.Hours * int.Parse(e.BillRate)).ToString() : "0";
-            e.IsCostable = "Yes";
-            e.CostRate = f.Random.Number(50, 150).ToString();
-            e.Cost = (e.Hours * int.Parse(e.CostRate)).ToString();
-            e.User = $"https://app.celoxis.com/psa/api/v2/timeEntries/{e.Id}/user";
-            e.Project = $"https://app.celoxis.com/psa/api/v2/timeEntries/{e.Id}/project";
+            e.IsBillable = f.Random.Bool(0.8f);
+            e.BillRate = f.Random.Number(100, 300);
+            e.Revenue = e.IsBillable == true ? e.Hours * e.BillRate : 0;
+            e.IsCostable = true;
+            e.CostRate = f.Random.Number(50, 150);
+            e.Cost = e.Hours * e.CostRate;
+            e.User = new Association<CeloxisUser> { Url = $"https://app.celoxis.com/psa/api/v2/timeEntries/{e.Id}/user" };
+            e.Task = new Association<CeloxisTask> { Url = $"https://app.celoxis.com/psa/api/v2/timeEntries/{e.Id}/task" };
+            e.App = new Association<CeloxisApp> { Url = $"https://app.celoxis.com/psa/api/v2/timeEntries/{e.Id}/app" };
+            e.Project = new Association<CeloxisProject> { Url = $"https://app.celoxis.com/psa/api/v2/timeEntries/{e.Id}/project" };
             e.Approvals =
             [
                 new CeloxisTimeEntryApproval

@@ -1,45 +1,50 @@
+using Celoxis.Api.Serialization.Converters;
 using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
-namespace Celoxis.Api.Models
+namespace Celoxis.Api.Models;
+
+public class CreateTimeEntryRequest : CeloxisModel, IValidatable
 {
-    /// <summary>
-    /// Request to create a time entry
-    /// </summary>
-    public class CreateTimeEntryRequest : CeloxisModel
+    [JsonPropertyName("user")]
+    public string User { get; set; } = string.Empty;
+
+    [JsonPropertyName("workItem")]
+    public string WorkItem { get; set; } = string.Empty;
+
+    [JsonPropertyName("date")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
+    public DateTimeOffset? Date { get; set; }
+
+    [JsonPropertyName("hours")]
+    public decimal Hours { get; set; }
+
+    [JsonPropertyName("timeCode")]
+    public string? TimeCode { get; set; }
+
+    [JsonPropertyName("comments")]
+    public string? Comments { get; set; }
+
+    [JsonPropertyName("state")]
+    public string? State { get; set; }
+
+    public ValidationResult Validate()
     {
-        /// <summary>
-        /// User ID or login (required)
-        /// </summary>
-        public string User { get; set; } = string.Empty;
+        var errors = new List<ValidationError>();
+        
+        if (string.IsNullOrWhiteSpace(User))
+            errors.Add(new ValidationError("User", "User ID or login is required"));
 
-        /// <summary>
-        /// Work item ID (task or project) (required)
-        /// </summary>
-        public string WorkItem { get; set; } = string.Empty;
+        if (string.IsNullOrWhiteSpace(WorkItem))
+            errors.Add(new ValidationError("WorkItem", "Work item ID is required"));
 
-        /// <summary>
-        /// Date (required)
-        /// </summary>
-        public DateTimeOffset? Date { get; set; }
+        if (!Date.HasValue)
+            errors.Add(new ValidationError("Date", "Date is required"));
 
-        /// <summary>
-        /// Hours (required)
-        /// </summary>
-        public decimal Hours { get; set; }
+        if (Hours <= 0)
+            errors.Add(new ValidationError("Hours", "Hours must be greater than 0"));
 
-        /// <summary>
-        /// Time code
-        /// </summary>
-        public string? TimeCode { get; set; }
-
-        /// <summary>
-        /// Comments
-        /// </summary>
-        public string? Comments { get; set; }
-
-        /// <summary>
-        /// State
-        /// </summary>
-        public string? State { get; set; }
+        return new ValidationResult(errors);
     }
 }

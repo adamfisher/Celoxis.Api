@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Celoxis.Api.Models;
 
-public partial class Client : CeloxisModel
+public class Client : CeloxisModel
 {
     [JsonPropertyName("id")]
     public string Id { get; set; }
@@ -21,7 +21,7 @@ public partial class Client : CeloxisModel
     public string Phone { get; set; }
 
     [JsonPropertyName("parent")]
-    public object Parent { get; set; }
+    public string Parent { get; set; }
 
     [JsonPropertyName("hierarchy")]
     public string Hierarchy { get; set; }
@@ -33,5 +33,6 @@ public partial class Client : CeloxisModel
     public string Login { get; set; }
 
     [JsonPropertyName("lastAccessed")]
-    public object LastAccessed { get; set; }
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
+    public DateTimeOffset? LastAccessed { get; set; }
 }

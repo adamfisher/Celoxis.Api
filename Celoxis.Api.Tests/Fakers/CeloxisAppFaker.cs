@@ -25,14 +25,14 @@ public sealed class CeloxisAppFaker : Faker<CeloxisApp>
             a.LastUpdate = f.Lorem.Sentence();
             a.LastUpdatedOn = f.Date.Recent(7);
             a.AllUpdates = f.Lorem.Paragraph();
-            a.Delayed = f.Random.Bool(0.2f) ? "Yes" : "No";
-            a.RequestorVisible = "No";
-            a.Open = f.Random.Bool(0.7f) ? "Yes" : "No";
+            a.Delayed = f.Random.Bool(0.2f) ? true : false;
+            a.RequestorVisible = false;
+            a.Open = f.Random.Bool(0.7f) ? true : false;
             a.StateManager = f.Name.FullName();
             a.ActualRevenue = f.Random.Decimal(0, 5000);
             a.ActualCost = f.Random.Decimal(0, 4000);
-            a.ActualEffort = f.Random.Number(0, 40).ToString();
-            a.Project = $"https://app.celoxis.com/psa/api/v2/apps/{a.Id}/project";
-            a.Assignee = f.Random.Bool(0.8f) ? new { id = f.Random.Number(100000, 999999).ToString(), name = f.Name.FullName() } : null;
+            a.ActualEffort = f.Random.Number(0, 40);
+            a.Project = new Association<CeloxisProject>() { Url = $"https://app.celoxis.com/psa/api/v2/apps/{a.Id}/project" };
+            a.Assignee = f.Name.FullName();
         });
 }

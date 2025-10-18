@@ -301,12 +301,12 @@ namespace Celoxis.Api.Tests.Clients
             var updateRequest = TestDataGenerator.GetUpdateTaskRequestFaker()
                 .RuleFor(r => r.Id, "12345")
                 .RuleFor(r => r.ActualPercentComplete, 75)
-                .RuleFor(r => r.RemainingEffort, "10")
+                .RuleFor(r => r.RemainingEffort, 10)
                 .Generate();
             
             var task = TestDataGenerator.GetTaskFaker().Generate();
-            task.ActualPercentComplete = "75";
-            task.RemainingEffort = "10";
+            task.ActualPercentComplete = 75;
+            task.RemainingEffort = 10;
             var response = TestDataGenerator.CreateSingleResponse(task);
             
             _httpTest.RespondWithJson(response);
@@ -316,8 +316,8 @@ namespace Celoxis.Api.Tests.Clients
 
             // Assert
             result.Should().NotBeNull();
-            result.ActualPercentComplete.Should().Be("75");
-            result.RemainingEffort.Should().Be("10");
+            result.ActualPercentComplete.Should().Be(75);
+            result.RemainingEffort.Should().Be(10);
         }
 
         #endregion
@@ -411,14 +411,14 @@ namespace Celoxis.Api.Tests.Clients
             var firstTask = await _client.Tasks.CreateAsync(TestDataGenerator.GetCreateTaskRequestFaker()
                 .RuleFor(r => r.Project, "TEST-PROJ")
                 .RuleFor(r => r.Name, "First Task")
-                .RuleFor(r => r.PlannedEffort, "16")
+                .RuleFor(r => r.PlannedEffort, 16)
                 .RuleFor(r => r.Duration, "2d")
                 .Generate());
 
             var secondTask = await _client.Tasks.CreateAsync(TestDataGenerator.GetCreateTaskRequestFaker()
                 .RuleFor(r => r.Project, "TEST-PROJ")
                 .RuleFor(r => r.Name, "Second Task")
-                .RuleFor(r => r.PlannedEffort, "8")
+                .RuleFor(r => r.PlannedEffort, 8)
                 .RuleFor(r => r.Duration, "1d")
                 .Generate());
 

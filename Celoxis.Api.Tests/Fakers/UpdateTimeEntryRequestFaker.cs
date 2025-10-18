@@ -18,7 +18,7 @@ public sealed class UpdateTimeEntryRequestFaker : Faker<UpdateTimeEntryRequest>
             r.CostRate = f.Random.Number(50, 150);
             r.IsCostable = true;
             r.Date = f.Date.Recent(30);
-            r.Hours = Math.Round(f.Random.Decimal(0.5m, 8m), 1).ToString();
+            r.Hours = Math.Round(f.Random.Decimal(0.5m, 8m), 1);
             r.State = f.PickRandom(States.TimeEntry.Saved, States.TimeEntry.PendingApproval, States.TimeEntry.Approved);
             r.TimeCode = f.PickRandom("Default", "Meeting", "Development", "Testing");
         });

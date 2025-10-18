@@ -393,20 +393,17 @@ namespace Celoxis.Api.Tests.Clients
         [UnitTest]
         public async Task UpdateAsync_ValidData_ReturnsUpdatedProject()
         {
-            // Arrange
             var updateRequest = new UpdateProjectRequest { Id = "1234", Budget = 75000m };
             var project = TestDataGenerator.GetProjectFaker().Generate();
-            project.Budget = "75000m";
+            project.Budget = 75000m;
             var response = TestDataGenerator.CreateSingleResponse(project);
             
             _httpTest.RespondWithJson(response);
 
-            // Act
             var result = await _client.Projects.UpdateAsync(updateRequest);
 
-            // Assert
             result.Should().NotBeNull();
-            result.Budget.Should().Be("75000m");
+            result.Budget.Should().Be(75000m);
             
             _httpTest.ShouldHaveCalled($"{_baseUrl}/api/v2/projects")
                 .WithVerb("PATCH")
@@ -451,10 +448,10 @@ namespace Celoxis.Api.Tests.Clients
         public async Task CloneAsync_ValidId_ReturnsClonedProject()
         {
             // Arrange
-            var overrideData = new UpdateProjectRequest 
+            var overrideData = new 
             { 
-                Name = "Cloned Project", 
-                PlannedStart = DateTime.Now 
+                name = "Cloned Project", 
+                plannedStart = DateTime.Now 
             };
             var project = TestDataGenerator.GetProjectFaker().Generate();
             project.Name = "Cloned Project";

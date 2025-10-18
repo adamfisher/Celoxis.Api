@@ -9,6 +9,7 @@ using Celoxis.Api.Models;
 using Celoxis.Api.Tests.Helpers;
 using FluentAssertions;
 using Flurl.Http.Testing;
+using Microsoft.VisualStudio.TestPlatform.Utilities;
 using Xunit;
 using Xunit.Categories;
 
@@ -68,8 +69,8 @@ namespace Celoxis.Api.Tests.Clients
             var project = TestDataGenerator.GetProjectFaker().Generate();
             
             // Simulate expanded response
-            timeEntry.User = user.Name;
-            timeEntry.Project = project.Name;
+            timeEntry.User = new Association<CeloxisUser>() { Data = user };
+            timeEntry.Project = new Association<CeloxisProject>() { Data = project };
             
             var response = TestDataGenerator.CreateSingleResponse(timeEntry);
             var expand = new List<string> { "user", "project", "workItem" };
@@ -152,11 +153,11 @@ namespace Celoxis.Api.Tests.Clients
         {
             // Arrange
             var timeEntries = TestDataGenerator.GetTimeEntryFaker()
-                .RuleFor(e => e.IsBillable, "Yes")
+                .RuleFor(e => e.IsBillable, true)
                 .Generate(7);
             var response = TestDataGenerator.CreateApiResponse(timeEntries, 7);
             var query = new QueryBuilder()
-                .Where("isBillable", "Yes")
+                .Where("isBillable", true)
                 .Where("date", DateFilters.LastMonth)
                 .Build();
             
@@ -167,7 +168,7 @@ namespace Celoxis.Api.Tests.Clients
 
             // Assert
             data.Should().HaveCount(7);
-            data.Should().OnlyContain(e => e.IsBillable == "Yes");
+            data.Should().OnlyContain(e => e.IsBillable == true);
         }
 
         #endregion
@@ -289,7 +290,7 @@ namespace Celoxis.Api.Tests.Clients
             };
             
             var timeEntry = TestDataGenerator.GetTimeEntryFaker().Generate();
-            timeEntry.Hours = 7.5;
+            timeEntry.Hours = (decimal)7.5;
             timeEntry.Comments = "Updated: Added extra time for debugging";
             var response = TestDataGenerator.CreateSingleResponse(timeEntry);
             
@@ -300,7 +301,7 @@ namespace Celoxis.Api.Tests.Clients
 
             // Assert
             result.Should().NotBeNull();
-            result.Hours.Should().Be(7.5);
+            result.Hours.Should().Be((decimal)7.5);
             result.Comments.Should().Contain("Updated");
             
             _httpTest.ShouldHaveCalled($"{_baseUrl}/api/v2/timeEntries")
@@ -400,9 +401,9 @@ namespace Celoxis.Api.Tests.Clients
             
             // Calculate totals
             var totalHours = data.Sum(e => e.Hours);
-            var billableHours = data.Where(e => e.IsBillable == "Yes").Sum(e => e.Hours);
-            var totalRevenue = data.Sum(e => int.Parse(e.Revenue));
-            var totalCost = data.Sum(e => int.Parse(e.Cost));
+            var billableHours = data.Where(e => e.IsBillable == true).Sum(e => e.Hours);
+            var totalRevenue = data.Sum(e => e.Revenue);
+            var totalCost = data.Sum(e => e.Cost);
             
             totalHours.Should().BeGreaterThan(0);
             billableHours.Should().BeGreaterThan(0);

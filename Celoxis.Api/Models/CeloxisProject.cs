@@ -1,5 +1,6 @@
 using System;
 using System.Text.Json.Serialization;
+using Celoxis.Api.Serialization.Converters;
 
 namespace Celoxis.Api.Models;
 
@@ -11,37 +12,35 @@ public partial class CeloxisProject : CeloxisModel
     [JsonPropertyName("url")]
     public Uri Url { get; set; }
 
-    [JsonPropertyName("client")]
-    public DataFieldWrapper<Client> Client { get; set; }
-
-    [JsonPropertyName("manager")]
-    public DataFieldWrapper<CeloxisManager> Manager { get; set; }
-
-    [JsonPropertyName("creator")]
-    public string Creator { get; set; }
-
     [JsonPropertyName("name")]
     public string Name { get; set; }
 
     [JsonPropertyName("description")]
     public string Description { get; set; }
 
+    [JsonPropertyName("creator")]
+    public string Creator { get; set; }
+
     [JsonPropertyName("code")]
     public string Code { get; set; }
 
     [JsonPropertyName("created")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? Created { get; set; }
 
     [JsonPropertyName("lastModified")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? LastModified { get; set; }
 
     [JsonPropertyName("plannedStart")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? PlannedStart { get; set; }
 
     [JsonPropertyName("plannedStartWeek")]
     public string PlannedStartWeek { get; set; }
 
     [JsonPropertyName("plannedStartWeekDate")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? PlannedStartWeekDate { get; set; }
 
     [JsonPropertyName("plannedStartMonth")]
@@ -57,13 +56,15 @@ public partial class CeloxisProject : CeloxisModel
     public string PlannedStartFiscalYear { get; set; }
 
     [JsonPropertyName("deadline")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? Deadline { get; set; }
 
     [JsonPropertyName("deadlineWeek")]
     public string DeadlineWeek { get; set; }
 
     [JsonPropertyName("deadlineWeekDate")]
-    public string DeadlineWeekDate { get; set; }
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
+    public DateTimeOffset? DeadlineWeekDate { get; set; }
 
     [JsonPropertyName("deadlineMonth")]
     public string DeadlineMonth { get; set; }
@@ -78,12 +79,14 @@ public partial class CeloxisProject : CeloxisModel
     public string DeadlineFiscalYear { get; set; }
 
     [JsonPropertyName("plannedFinish")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? PlannedFinish { get; set; }
 
     [JsonPropertyName("plannedFinishWeek")]
     public string PlannedFinishWeek { get; set; }
 
     [JsonPropertyName("plannedFinishWeekDate")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? PlannedFinishWeekDate { get; set; }
 
     [JsonPropertyName("plannedFinishMonth")]
@@ -99,16 +102,19 @@ public partial class CeloxisProject : CeloxisModel
     public string PlannedFinishFiscalYear { get; set; }
 
     [JsonPropertyName("projectedFinish")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? ProjectedFinish { get; set; }
 
     [JsonPropertyName("actualFinish")]
-    public object ActualFinish { get; set; }
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
+    public DateTimeOffset? ActualFinish { get; set; }
 
     [JsonPropertyName("priority")]
     public string Priority { get; set; }
 
     [JsonPropertyName("actualPercentComplete")]
-    public string ActualPercentComplete { get; set; }
+    [JsonConverter(typeof(StringToIntConverter))]
+    public int? ActualPercentComplete { get; set; }
 
     [JsonPropertyName("state")]
     public string State { get; set; }
@@ -117,37 +123,48 @@ public partial class CeloxisProject : CeloxisModel
     public string ScheduleType { get; set; }
 
     [JsonPropertyName("baselineStart")]
-    public object BaselineStart { get; set; }
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
+    public DateTimeOffset? BaselineStart { get; set; }
 
     [JsonPropertyName("baselineStartVariance")]
-    public string BaselineStartVariance { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? BaselineStartVariance { get; set; }
 
     [JsonPropertyName("baselineDeadline")]
-    public object BaselineDeadline { get; set; }
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
+    public DateTimeOffset? BaselineDeadline { get; set; }
 
     [JsonPropertyName("baselineDeadlineVariance")]
-    public string BaselineDeadlineVariance { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? BaselineDeadlineVariance { get; set; }
 
     [JsonPropertyName("baselineFinish")]
-    public object BaselineFinish { get; set; }
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
+    public DateTimeOffset? BaselineFinish { get; set; }
 
     [JsonPropertyName("baselineFinishVariance")]
-    public string BaselineFinishVariance { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? BaselineFinishVariance { get; set; }
 
     [JsonPropertyName("baselineCost")]
-    public object BaselineCost { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? BaselineCost { get; set; }
 
     [JsonPropertyName("baselineBudget")]
-    public object BaselineBudget { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? BaselineBudget { get; set; }
 
     [JsonPropertyName("baselinePercentComplete")]
-    public string BaselinePercentComplete { get; set; }
+    [JsonConverter(typeof(StringToIntConverter))]
+    public int? BaselinePercentComplete { get; set; }
 
     [JsonPropertyName("baselineEffort")]
-    public object BaselineEffort { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? BaselineEffort { get; set; }
 
     [JsonPropertyName("baselineEffortVariance")]
-    public string BaselineEffortVariance { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? BaselineEffortVariance { get; set; }
 
     [JsonPropertyName("scheduleHealth")]
     public string ScheduleHealth { get; set; }
@@ -168,140 +185,193 @@ public partial class CeloxisProject : CeloxisModel
     public string WorkCalendar { get; set; }
 
     [JsonPropertyName("budget")]
-    public string Budget { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? Budget { get; set; }
 
     [JsonPropertyName("billingType")]
     public string BillingType { get; set; }
 
     [JsonPropertyName("plannedRevenue")]
-    public string PlannedRevenue { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? PlannedRevenue { get; set; }
 
     [JsonPropertyName("plannedLaborRevenue")]
-    public string PlannedLaborRevenue { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? PlannedLaborRevenue { get; set; }
 
     [JsonPropertyName("fixedPrice")]
-    public string FixedPrice { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? FixedPrice { get; set; }
 
     [JsonPropertyName("plannedEffort")]
-    public string PlannedEffort { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? PlannedEffort { get; set; }
 
     [JsonPropertyName("actualLaborHours")]
-    public string ActualLaborHours { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? ActualLaborHours { get; set; }
 
     [JsonPropertyName("effortVariance")]
-    public string EffortVariance { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? EffortVariance { get; set; }
 
     [JsonPropertyName("actualBillableLaborHours")]
-    public string ActualBillableLaborHours { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? ActualBillableLaborHours { get; set; }
 
     [JsonPropertyName("actualNonBillableLaborHours")]
-    public string ActualNonBillableLaborHours { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? ActualNonBillableLaborHours { get; set; }
 
     [JsonPropertyName("remainingEffort")]
-    public string RemainingEffort { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? RemainingEffort { get; set; }
 
     [JsonPropertyName("plannedCost")]
-    public string PlannedCost { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? PlannedCost { get; set; }
 
     [JsonPropertyName("actualCost")]
-    public string ActualCost { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? ActualCost { get; set; }
 
     [JsonPropertyName("invoicedLaborHours")]
-    public string InvoicedLaborHours { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? InvoicedLaborHours { get; set; }
 
     [JsonPropertyName("invoicedRevenue")]
-    public string InvoicedRevenue { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? InvoicedRevenue { get; set; }
 
     [JsonPropertyName("uninvoicedRevenue")]
-    public string UninvoicedRevenue { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? UninvoicedRevenue { get; set; }
 
     [JsonPropertyName("invoicedLaborAmount")]
-    public string InvoicedLaborAmount { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? InvoicedLaborAmount { get; set; }
 
     [JsonPropertyName("invoicedExpense")]
-    public string InvoicedExpense { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? InvoicedExpense { get; set; }
 
     [JsonPropertyName("plannedLaborCost")]
-    public string PlannedLaborCost { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? PlannedLaborCost { get; set; }
 
     [JsonPropertyName("actualLaborCost")]
-    public string ActualLaborCost { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? ActualLaborCost { get; set; }
 
     [JsonPropertyName("plannedNonLaborCost")]
-    public string PlannedNonLaborCost { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? PlannedNonLaborCost { get; set; }
 
     [JsonPropertyName("actualNonLaborCost")]
-    public string ActualNonLaborCost { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? ActualNonLaborCost { get; set; }
 
     [JsonPropertyName("plannedFixedCost")]
-    public string PlannedFixedCost { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? PlannedFixedCost { get; set; }
 
     [JsonPropertyName("actualFixedCost")]
-    public string ActualFixedCost { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? ActualFixedCost { get; set; }
 
     [JsonPropertyName("plannedProfit")]
-    public string PlannedProfit { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? PlannedProfit { get; set; }
 
     [JsonPropertyName("plannedMargin")]
-    public string PlannedMargin { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? PlannedMargin { get; set; }
 
     [JsonPropertyName("actualProfit")]
-    public string ActualProfit { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? ActualProfit { get; set; }
 
     [JsonPropertyName("actualMargin")]
-    public string ActualMargin { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? ActualMargin { get; set; }
 
     [JsonPropertyName("projectedCost")]
-    public string ProjectedCost { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? ProjectedCost { get; set; }
 
     [JsonPropertyName("projectedLaborHours")]
-    public string ProjectedLaborHours { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? ProjectedLaborHours { get; set; }
 
     [JsonPropertyName("actualRevenue")]
-    public string ActualRevenue { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? ActualRevenue { get; set; }
 
     [JsonPropertyName("actualNonBillableLaborAmount")]
-    public string ActualNonBillableLaborAmount { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? ActualNonBillableLaborAmount { get; set; }
 
     [JsonPropertyName("actualNonBillableExpense")]
-    public string ActualNonBillableExpense { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? ActualNonBillableExpense { get; set; }
 
     [JsonPropertyName("alignment")]
-    public object Alignment { get; set; }
+    [JsonConverter(typeof(StringToIntConverter))]
+    public int? Alignment { get; set; }
 
     [JsonPropertyName("benefit")]
-    public object Benefit { get; set; }
+    [JsonConverter(typeof(StringToIntConverter))]
+    public int? Benefit { get; set; }
 
     [JsonPropertyName("risk")]
     public string Risk { get; set; }
 
     [JsonPropertyName("cpi")]
-    public object Cpi { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? Cpi { get; set; }
 
     [JsonPropertyName("spi")]
-    public object Spi { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? Spi { get; set; }
 
     [JsonPropertyName("baselineCostVariance")]
-    public object BaselineCostVariance { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? BaselineCostVariance { get; set; }
 
     [JsonPropertyName("baselineScheduleVariance")]
-    public object BaselineScheduleVariance { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? BaselineScheduleVariance { get; set; }
 
     [JsonPropertyName("plannedPercentComplete")]
-    public string PlannedPercentComplete { get; set; }
+    [JsonConverter(typeof(StringToIntConverter))]
+    public int? PlannedPercentComplete { get; set; }
 
     [JsonPropertyName("bcwp")]
-    public object Bcwp { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? Bcwp { get; set; }
 
     [JsonPropertyName("bcws")]
-    public object Bcws { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? Bcws { get; set; }
 
     [JsonPropertyName("acwp")]
-    public string Acwp { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? Acwp { get; set; }
 
     [JsonPropertyName("team")]
     public string Team { get; set; }
 
+    [JsonPropertyName("manager")]
+    [JsonConverter(typeof(AssociationConverter<CeloxisManager>))]
+    public Association<CeloxisManager> Manager { get; set; }
+
+    [JsonPropertyName("client")]
+    public string Client { get; set; }
+
+    [JsonPropertyName("clients")]
+    [JsonConverter(typeof(AssociationConverter<Client[]>))]
+    public Association<Client[]> Clients { get; set; }
+
     [JsonPropertyName("associations")]
-    public CeloxisProjectAssociations CeloxisProjectAssociations { get; set; }
+    public CeloxisProjectAssociations Associations { get; set; }
 }

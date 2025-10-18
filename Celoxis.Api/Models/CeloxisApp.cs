@@ -1,5 +1,5 @@
+using Celoxis.Api.Serialization.Converters;
 using System;
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Celoxis.Api.Models;
@@ -9,128 +9,164 @@ namespace Celoxis.Api.Models;
 /// </summary>
 public class CeloxisApp : CeloxisModel
 {
-    /// <summary>
-    /// App ID
-    /// </summary>
+    [JsonPropertyName("id")]
     public string Id { get; set; } = string.Empty;
 
-    /// <summary>
-    /// App URL
-    /// </summary>
+    [JsonPropertyName("url")]
     public string Url { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Name
-    /// </summary>
-    public string Name { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Description
-    /// </summary>
-    public string Description { get; set; } = string.Empty;
-
-    /// <summary>
-    /// App type (e.g., Bug)
-    /// </summary>
+    [JsonPropertyName("app")]
     public string App { get; set; } = string.Empty;
 
-    /// <summary>
-    /// State
-    /// </summary>
-    public string State { get; set; } = string.Empty;
+    [JsonPropertyName("creator")]
+    public string Creator { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Age
-    /// </summary>
-    public string Age { get; set; } = string.Empty;
+    [JsonPropertyName("assignee")]
+    public string Assignee { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Requestor
-    /// </summary>
-    public string Requestor { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Due date
-    /// </summary>
-    public DateTimeOffset? DueDate { get; set; }
-
-    /// <summary>
-    /// Date created
-    /// </summary>
-    public DateTimeOffset? Created { get; set; }
-
-    /// <summary>
-    /// Timeout date
-    /// </summary>
-    public DateTimeOffset? Timeout { get; set; }
-
-    /// <summary>
-    /// Date completed
-    /// </summary>
-    public DateTimeOffset? Completed { get; set; }
-
-    /// <summary>
-    /// Priority
-    /// </summary>
-    public string Priority { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Last update
-    /// </summary>
-    public string LastUpdate { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Last updated on
-    /// </summary>
-    public DateTimeOffset? LastUpdatedOn { get; set; }
-
-    /// <summary>
-    /// All updates
-    /// </summary>
-    public string AllUpdates { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Is delayed
-    /// </summary>
-    public string Delayed { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Is requestor visible
-    /// </summary>
-    public string RequestorVisible { get; set; } = "No";
-
-    /// <summary>
-    /// Is open
-    /// </summary>
-    public string Open { get; set; } = string.Empty;
-
-    /// <summary>
-    /// State manager
-    /// </summary>
+    [JsonPropertyName("stateManager")]
     public string StateManager { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Actual revenue
-    /// </summary>
-    public decimal ActualRevenue { get; set; }
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Actual cost
-    /// </summary>
-    public decimal ActualCost { get; set; }
+    [JsonPropertyName("description")]
+    public string Description { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Actual effort
-    /// </summary>
-    public string ActualEffort { get; set; } = string.Empty;
+    [JsonPropertyName("state")]
+    public string State { get; set; } = string.Empty;
 
-    /// <summary>
-    /// CeloxisProject URL or data (when expanded)
-    /// </summary>
-    public object Project { get; set; } = string.Empty;
+    [JsonPropertyName("age")]
+    public string Age { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Assignee URL or data (when expanded)
-    /// </summary>
-    public object? Assignee { get; set; }
+    [JsonPropertyName("requestor")]
+    public string Requestor { get; set; } = string.Empty;
+
+    [JsonPropertyName("workspace")]
+    public string Workspace { get; set; } = string.Empty;
+
+    [JsonPropertyName("dueDate")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
+    public DateTimeOffset? DueDate { get; set; }
+
+    [JsonPropertyName("dueDateWeek")]
+    public string DueDateWeek { get; set; } = string.Empty;
+
+    [JsonPropertyName("dueDateWeekDate")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
+    public DateTimeOffset? DueDateWeekDate { get; set; }
+
+    [JsonPropertyName("dueDateMonth")]
+    public string DueDateMonth { get; set; } = string.Empty;
+
+    [JsonPropertyName("dueDateQuarter")]
+    public string DueDateQuarter { get; set; } = string.Empty;
+
+    [JsonPropertyName("dueDateYear")]
+    public string DueDateYear { get; set; } = string.Empty;
+
+    [JsonPropertyName("dueDateFiscalYear")]
+    public string DueDateFiscalYear { get; set; } = string.Empty;
+
+    [JsonPropertyName("created")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
+    public DateTimeOffset? Created { get; set; }
+
+    [JsonPropertyName("createdWeek")]
+    public string CreatedWeek { get; set; } = string.Empty;
+
+    [JsonPropertyName("createdWeekDate")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
+    public DateTimeOffset? CreatedWeekDate { get; set; }
+
+    [JsonPropertyName("createdMonth")]
+    public string CreatedMonth { get; set; } = string.Empty;
+
+    [JsonPropertyName("createdQuarter")]
+    public string CreatedQuarter { get; set; } = string.Empty;
+
+    [JsonPropertyName("createdYear")]
+    public string CreatedYear { get; set; } = string.Empty;
+
+    [JsonPropertyName("createdFiscalYear")]
+    public string CreatedFiscalYear { get; set; } = string.Empty;
+
+    [JsonPropertyName("timeout")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
+    public DateTimeOffset? Timeout { get; set; }
+
+    [JsonPropertyName("completed")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
+    public DateTimeOffset? Completed { get; set; }
+
+    [JsonPropertyName("priority")]
+    public string Priority { get; set; } = string.Empty;
+
+    [JsonPropertyName("lastUpdate")]
+    public string LastUpdate { get; set; } = string.Empty;
+
+    [JsonPropertyName("lastUpdatedOn")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
+    public DateTimeOffset? LastUpdatedOn { get; set; }
+
+    [JsonPropertyName("allUpdates")]
+    public string AllUpdates { get; set; } = string.Empty;
+
+    [JsonPropertyName("delayed")]
+    [JsonConverter(typeof(CeloxisBooleanConverter))]
+    public bool? Delayed { get; set; }
+
+    [JsonPropertyName("requestorVisible")]
+    [JsonConverter(typeof(CeloxisBooleanConverter))]
+    public bool? RequestorVisible { get; set; }
+
+    [JsonPropertyName("clientVisible")]
+    [JsonConverter(typeof(CeloxisBooleanConverter))]
+    public bool? ClientVisible { get; set; }
+
+    [JsonPropertyName("open")]
+    [JsonConverter(typeof(CeloxisBooleanConverter))]
+    public bool? Open { get; set; }
+
+    [JsonPropertyName("actualRevenue")]
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? ActualRevenue { get; set; }
+
+    [JsonPropertyName("actualCost")]
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? ActualCost { get; set; }
+
+    [JsonPropertyName("actualEffort")]
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? ActualEffort { get; set; }
+
+    [JsonPropertyName("actualBillableLaborHours")]
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? ActualBillableLaborHours { get; set; }
+
+    [JsonPropertyName("actualNonBillableLaborHours")]
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? ActualNonBillableLaborHours { get; set; }
+
+    [JsonPropertyName("invoicedLaborHours")]
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? InvoicedLaborHours { get; set; }
+
+    [JsonPropertyName("invoicedRevenue")]
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? InvoicedRevenue { get; set; }
+
+    [JsonPropertyName("checklist")]
+    public string Checklist { get; set; } = string.Empty;
+
+    [JsonPropertyName("project")]
+    [JsonConverter(typeof(AssociationConverter<CeloxisProject>))]
+    public Association<CeloxisProject> Project { get; set; }
+
+    [JsonPropertyName("assignedTo")]
+    [JsonConverter(typeof(AssociationConverter<CeloxisUser>))]
+    public Association<CeloxisUser> AssignedTo { get; set; }
+
+    [JsonPropertyName("associations")]
+    public object Associations { get; set; }
 }

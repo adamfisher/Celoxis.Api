@@ -1,99 +1,85 @@
+using Celoxis.Api.Serialization.Converters;
 using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Celoxis.Api.Models;
 
-/// <summary>
-/// Request to update a project
-/// </summary>
-public class UpdateProjectRequest : CeloxisModel
+public class UpdateProjectRequest : CeloxisModel, IValidatable
 {
-    /// <summary>
-    /// CeloxisProject ID (required)
-    /// </summary>
+    [JsonPropertyName("id")]
     public string Id { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Name
-    /// </summary>
+    [JsonPropertyName("name")]
     public string? Name { get; set; }
 
-    /// <summary>
-    /// Manager
-    /// </summary>
+    [JsonPropertyName("manager")]
     public string? Manager { get; set; }
 
-    /// <summary>
-    /// Planned start
-    /// </summary>
+    [JsonPropertyName("plannedStart")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? PlannedStart { get; set; }
 
-    /// <summary>
-    /// Deadline
-    /// </summary>
+    [JsonPropertyName("deadline")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? Deadline { get; set; }
 
-    /// <summary>
-    /// Description
-    /// </summary>
+    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
-    /// <summary>
-    /// Budget
-    /// </summary>
+    [JsonPropertyName("budget")]
+    [JsonConverter(typeof(StringToDecimalConverter))]
     public decimal? Budget { get; set; }
 
-    /// <summary>
-    /// Billing type
-    /// </summary>
+    [JsonPropertyName("billingType")]
     public string? BillingType { get; set; }
 
-    /// <summary>
-    /// Fixed price
-    /// </summary>
+    [JsonPropertyName("fixedPrice")]
+    [JsonConverter(typeof(StringToDecimalConverter))]
     public decimal? FixedPrice { get; set; }
 
-    /// <summary>
-    /// Priority
-    /// </summary>
+    [JsonPropertyName("priority")]
     public string? Priority { get; set; }
 
-    /// <summary>
-    /// Risk
-    /// </summary>
+    [JsonPropertyName("risk")]
     public string? Risk { get; set; }
 
-    /// <summary>
-    /// Alignment (0-100)
-    /// </summary>
+    [JsonPropertyName("alignment")]
+    [JsonConverter(typeof(StringToIntConverter))]
     public int? Alignment { get; set; }
 
-    /// <summary>
-    /// Benefit (0-100)
-    /// </summary>
+    [JsonPropertyName("benefit")]
+    [JsonConverter(typeof(StringToIntConverter))]
     public int? Benefit { get; set; }
 
-    /// <summary>
-    /// Code
-    /// </summary>
+    [JsonPropertyName("code")]
     public string? Code { get; set; }
 
-    /// <summary>
-    /// Clients
-    /// </summary>
+    [JsonPropertyName("clients")]
     public string? Clients { get; set; }
 
-    /// <summary>
-    /// State
-    /// </summary>
+    [JsonPropertyName("state")]
     public string? State { get; set; }
 
-    /// <summary>
-    /// Type
-    /// </summary>
+    [JsonPropertyName("type")]
     public string? Type { get; set; }
 
-    /// <summary>
-    /// Workspace
-    /// </summary>
+    [JsonPropertyName("workspace")]
     public string? Workspace { get; set; }
+
+    public ValidationResult Validate()
+    {
+        var errors = new List<ValidationError>();
+        
+        if (string.IsNullOrWhiteSpace(Id))
+            errors.Add(new ValidationError("Id", "Project ID is required for updates"));
+
+        if (Alignment.HasValue && (Alignment < 0 || Alignment > 100))
+            errors.Add(new ValidationError("Alignment", "Alignment must be between 0 and 100"));
+
+        if (Benefit.HasValue && (Benefit < 0 || Benefit > 100))
+            errors.Add(new ValidationError("Benefit", "Benefit must be between 0 and 100"));
+
+        return new ValidationResult(errors);
+    }
 }

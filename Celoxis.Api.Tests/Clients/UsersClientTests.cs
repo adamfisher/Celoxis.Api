@@ -143,7 +143,7 @@ namespace Celoxis.Api.Tests.Clients
         {
             // Arrange
             var users = TestDataGenerator.GetUserFaker()
-                .RuleFor(u => u.Admin, "Yes")
+                .RuleFor(u => u.Admin, true)
                 .Generate(2);
             var response = TestDataGenerator.CreateApiResponse(users, 2);
             var query = new QueryBuilder()
@@ -158,7 +158,7 @@ namespace Celoxis.Api.Tests.Clients
 
             // Assert
             data.Should().HaveCount(2);
-            data.Should().OnlyContain(u => u.Admin == "Yes");
+            data.Should().OnlyContain(u => u.Admin == true);
             
             _httpTest.ShouldHaveCalled($"{_baseUrl}/api/v2/users")
                 .WithQueryParam("filter")
@@ -265,8 +265,8 @@ namespace Celoxis.Api.Tests.Clients
                 .Generate();
             
             var user = TestDataGenerator.GetUserFaker().Generate();
-            user.BillRate = "200";
-            user.CostRate = "100";
+            user.BillRate = 200;
+            user.CostRate = 100;
             var response = TestDataGenerator.CreateSingleResponse(user);
             
             _httpTest.RespondWithJson(response);
@@ -276,8 +276,8 @@ namespace Celoxis.Api.Tests.Clients
 
             // Assert
             result.Should().NotBeNull();
-            result.BillRate.Should().Be("200");
-            result.CostRate.Should().Be("100");
+            result.BillRate.Should().Be(200);
+            result.CostRate.Should().Be(100);
         }
 
         [Fact]
@@ -426,7 +426,7 @@ namespace Celoxis.Api.Tests.Clients
             // Arrange
             var users = TestDataGenerator.GetUserFaker()
                 .RuleFor(u => u.Roles, f => f.PickRandom("Developer", "Designer", "Tester"))
-                .RuleFor(u => u.BillRate, f => f.Random.Number(100, 199).ToString())
+                .RuleFor(u => u.BillRate, f => f.Random.Number(100, 199))
                 .Generate(10);
             var response = TestDataGenerator.CreateApiResponse(users, 10);
             
@@ -444,7 +444,7 @@ namespace Celoxis.Api.Tests.Clients
 
             // Assert
             data.Should().HaveCount(10);
-            data.Should().OnlyContain(u => int.Parse(u.BillRate) < 200);
+            data.Should().OnlyContain(u => u.BillRate < 200);
         }
 
         #endregion

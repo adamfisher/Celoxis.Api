@@ -1,12 +1,13 @@
 using System;
 using System.Text.Json.Serialization;
+using Celoxis.Api.Serialization.Converters;
 
 namespace Celoxis.Api.Models;
 
 public class CeloxisTaskUpdate : CeloxisModel
 {
     [JsonPropertyName("id")]
-    public long Id { get; set; }
+    public string Id { get; set; }
 
     [JsonPropertyName("url")]
     public Uri Url { get; set; }
@@ -15,25 +16,31 @@ public class CeloxisTaskUpdate : CeloxisModel
     public string TaskUpdateBy { get; set; }
 
     [JsonPropertyName("date")]
-    public DateTimeOffset Date { get; set; }
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
+    public DateTimeOffset? Date { get; set; }
 
     [JsonPropertyName("comments")]
     public string Comments { get; set; }
 
     [JsonPropertyName("percentComplete")]
-    public string PercentComplete { get; set; }
+    [JsonConverter(typeof(StringToIntConverter))]
+    public int? PercentComplete { get; set; }
 
     [JsonPropertyName("actualStart")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? ActualStart { get; set; }
 
     [JsonPropertyName("actualFinish")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? ActualFinish { get; set; }
 
     [JsonPropertyName("task")]
-    public DataFieldWrapper<CeloxisTask> Task { get; set; }
+    [JsonConverter(typeof(AssociationConverter<CeloxisTask>))]
+    public Association<CeloxisTask> Task { get; set; }
 
     [JsonPropertyName("project")]
-    public DataFieldWrapper<CeloxisProject> Project { get; set; }
+    [JsonConverter(typeof(AssociationConverter<CeloxisProject>))]
+    public Association<CeloxisProject> Project { get; set; }
 
     [JsonPropertyName("associations")]
     public CeloxisTaskUpdateAssociations Associations { get; set; }

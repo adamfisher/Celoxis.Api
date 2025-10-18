@@ -1,10 +1,11 @@
+using Celoxis.Api.Serialization.Converters;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Celoxis.Api.Models;
 
-public class CeloxisTimeEntry
+public class CeloxisTimeEntry : CeloxisModel
 {
     [JsonPropertyName("id")]
     public string Id { get; set; }
@@ -20,7 +21,8 @@ public class CeloxisTimeEntry
     public DateTimeOffset? XaTs { get; set; }
 
     [JsonPropertyName("user")]
-    public string User { get; set; }
+    [JsonConverter(typeof(AssociationConverter<CeloxisUser>))]
+    public Association<CeloxisUser> User { get; set; }
 
     [JsonPropertyName("creator")]
     public string Creator { get; set; }
@@ -63,7 +65,7 @@ public class CeloxisTimeEntry
     public DateTimeOffset? LastModified { get; set; }
 
     [JsonPropertyName("hours")]
-    public double Hours { get; set; }
+    public decimal Hours { get; set; }
 
     [JsonPropertyName("comments")]
     public string Comments { get; set; }
@@ -75,7 +77,8 @@ public class CeloxisTimeEntry
     public string State { get; set; }
 
     [JsonPropertyName("workItem")]
-    public string WorkItem { get; set; }
+    [JsonConverter(typeof(AssociationConverter<CeloxisTask>))]
+    public Association<CeloxisTask> WorkItem { get; set; }
 
     [JsonPropertyName("yearWeek")]
     public string YearWeek { get; set; }
@@ -92,22 +95,28 @@ public class CeloxisTimeEntry
     public List<CeloxisTimeEntryApproval> Approvals { get; set; }
 
     [JsonPropertyName("isBillable")]
-    public string IsBillable { get; set; }
+    [JsonConverter(typeof(CeloxisBooleanConverter))]
+    public bool? IsBillable { get; set; }
 
     [JsonPropertyName("billRate")]
-    public string BillRate { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? BillRate { get; set; }
 
     [JsonPropertyName("revenue")]
-    public string Revenue { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? Revenue { get; set; }
 
     [JsonPropertyName("isCostable")]
-    public string IsCostable { get; set; }
+    [JsonConverter(typeof(CeloxisBooleanConverter))]
+    public bool? IsCostable { get; set; }
 
     [JsonPropertyName("costRate")]
-    public string CostRate { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? CostRate { get; set; }
 
     [JsonPropertyName("cost")]
-    public string Cost { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? Cost { get; set; }
 
     [JsonPropertyName("externalKey")]
     public string ExternalKey { get; set; }
@@ -116,17 +125,17 @@ public class CeloxisTimeEntry
     public string TimeType { get; set; }
 
     [JsonPropertyName("task")]
-    public string Task { get; set; }
+    [JsonConverter(typeof(AssociationConverter<CeloxisTask>))]
+    public Association<CeloxisTask> Task { get; set; }
 
     [JsonPropertyName("app")]
-    public string App { get; set; }
+    [JsonConverter(typeof(AssociationConverter<CeloxisApp>))]
+    public Association<CeloxisApp> App { get; set; }
 
     [JsonPropertyName("project")]
-    public string Project { get; set; }
+    [JsonConverter(typeof(AssociationConverter<CeloxisProject>))]
+    public Association<CeloxisProject> Project { get; set; }
 
     [JsonPropertyName("associations")]
     public CeloxisTimeEntryAssociations Associations { get; set; }
-
-    [JsonExtensionData]
-    public Dictionary<string, object> AdditionalProperties { get; set; } = new();
 }

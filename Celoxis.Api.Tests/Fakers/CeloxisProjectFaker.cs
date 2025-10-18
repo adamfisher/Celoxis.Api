@@ -12,13 +12,10 @@ public sealed class CeloxisProjectFaker : Faker<CeloxisProject>
         {
             p.Id = f.Random.Number(800000, 999999).ToString();
             p.Url = new Uri($"https://app.celoxis.com/psa/projects/{p.Id}");
-            p.Manager = new DataFieldWrapper<CeloxisManager>(f.Person.FullName);
-            p.Creator = f.Person.FullName;
-            p.ManagersAll = f.Person.FullName;
-            p.Client = new DataFieldWrapper<Client>(f.Person.FullName);
-
+            p.Manager = new Association<CeloxisManager> { Url = f.Internet.Url() };
+            p.Creator = f.Name.FullName();
+            p.Client = f.Random.Bool(0.3f) ? f.Company.CompanyName() : "";
             p.Name = f.Company.CompanyName() + " - Project";
-
             p.Description = f.Random.Bool(0.3f) ? f.Lorem.Paragraph() : "";
             p.Code = f.Random.Bool(0.4f) ? f.Random.AlphaNumeric(8).ToUpper() : "";
             
@@ -51,7 +48,7 @@ public sealed class CeloxisProjectFaker : Faker<CeloxisProject>
             p.ActualFinish = f.Random.Bool(0.3f) ? f.Date.Recent(180) : null;
             
             p.Priority = f.PickRandom(FakerConstants.Priorities);
-            p.ActualPercentComplete = f.Random.Number(0, 100).ToString();
+            p.ActualPercentComplete = f.Random.Number(0, 100);
             p.State = f.PickRandom(FakerConstants.ProjectStates);
             p.ScheduleType = f.PickRandom(FakerConstants.ScheduleTypes);
             
@@ -71,13 +68,13 @@ public sealed class CeloxisProjectFaker : Faker<CeloxisProject>
             
             SetPerformanceMetrics(p, f);
             
-            p.PlannedPercentComplete = f.Random.Number(0, 100).ToString();
-            p.Acwp = f.Random.Number(0, 50000).ToString();
+            p.PlannedPercentComplete = f.Random.Number(0, 100);
+            p.Acwp = f.Random.Number(0, 50000);
             
             var teamMembers = f.PickRandom([f.Person.FullName, f.Person.FullName, f.Person.FullName, f.Person.FullName], 2);
             p.Team = string.Join(", ", teamMembers);
             
-            p.CeloxisProjectAssociations = new CeloxisProjectAssociations
+            p.Associations = new CeloxisProjectAssociations
             {
                 Manager = new Uri($"https://app.celoxis.com/psa//api/v2/projects/{p.Id}/manager"),
                 Clients = new Uri($"https://app.celoxis.com/psa//api/v2/projects/{p.Id}/clients"),
@@ -104,7 +101,7 @@ public sealed class CeloxisProjectFaker : Faker<CeloxisProject>
         var weekOfYear = calendar.GetWeekOfYear(deadline, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
         
         p.DeadlineWeek = $"{weekOfYear:D2}-{deadline.Year}";
-        p.DeadlineWeekDate = deadline.AddDays(-(int)deadline.DayOfWeek + 1).ToString("yyyy-MM-dd");
+        p.DeadlineWeekDate = deadline.AddDays(-(int)deadline.DayOfWeek + 1);
         p.DeadlineMonth = deadline.ToString("yyyy-MM");
         p.DeadlineQuarter = $"Q{(deadline.Month - 1) / 3 + 1} {deadline.Year}";
         p.DeadlineYear = deadline.Year.ToString();
@@ -128,80 +125,81 @@ public sealed class CeloxisProjectFaker : Faker<CeloxisProject>
     {
         var hasBaseline = f.Random.Bool(0.2f);
         
-        p.BaselineStart = hasBaseline ? f.Date.Past().ToString("yyyy-MM-dd") : null;
-        p.BaselineStartVariance = hasBaseline ? $"{f.Random.Number(-5, 5)} Days" : "";
-        p.BaselineDeadline = hasBaseline && f.Random.Bool(0.5f) ? f.Date.Future().ToString("yyyy-MM-dd") : null;
-        p.BaselineDeadlineVariance = "";
-        p.BaselineFinish = hasBaseline ? f.Date.Future().ToString("yyyy-MM-dd") : null;
-        p.BaselineFinishVariance = hasBaseline ? $"{f.Random.Number(-10, 10)} Days" : "";
-        p.BaselineCost = hasBaseline ? f.Random.Number(1000, 100000).ToString() : null;
-        p.BaselineBudget = hasBaseline ? f.Random.Number(0, 50000).ToString() : null;
-        p.BaselinePercentComplete = hasBaseline ? f.Random.Number(0, 100).ToString() : "0";
-        p.BaselineEffort = hasBaseline ? f.Random.Number(10, 1000).ToString() : null;
-        p.BaselineEffortVariance = f.Random.Number(0, 100).ToString();
+        p.BaselineStart = hasBaseline ? f.Date.Past() : null;
+        p.BaselineStartVariance = hasBaseline ? f.Random.Number(-5, 5) : null;
+        p.BaselineDeadline = hasBaseline && f.Random.Bool(0.5f) ? f.Date.Future() : null;
+        p.BaselineDeadlineVariance = null;
+        p.BaselineFinish = hasBaseline ? f.Date.Future() : null;
+        p.BaselineFinishVariance = hasBaseline ? f.Random.Number(-10, 10) : null;
+        p.BaselineCost = hasBaseline ? f.Random.Number(1000, 100000) : null;
+        p.BaselineBudget = hasBaseline ? f.Random.Number(0, 50000) : null;
+        p.BaselinePercentComplete = hasBaseline ? f.Random.Number(0, 100) : 0;
+        p.BaselineEffort = hasBaseline ? f.Random.Number(10, 1000) : null;
+        p.BaselineEffortVariance = f.Random.Number(0, 100);
     }
     
     private static void SetFinancialFields(CeloxisProject p, Faker f)
     {
-        p.Budget = f.Random.Number(0, 100000).ToString();
+        p.Budget = f.Random.Number(0, 100000);
         p.BillingType = f.PickRandom(FakerConstants.BillingTypes);
-        p.PlannedRevenue = "0";
-        p.PlannedLaborRevenue = "0";
-        p.FixedPrice = "0";
+        p.PlannedRevenue = 0;
+        p.PlannedLaborRevenue = 0;
+        p.FixedPrice = 0;
         
         var plannedEffort = f.Random.Number(0, 3000);
-        p.PlannedEffort = plannedEffort.ToString();
+        p.PlannedEffort = plannedEffort;
         
         var actualHours = f.Random.Number(0, plannedEffort);
-        p.ActualLaborHours = actualHours.ToString();
-        p.EffortVariance = (plannedEffort - actualHours).ToString();
+        p.ActualLaborHours = actualHours;
+        p.EffortVariance = plannedEffort - actualHours;
         
-        p.ActualBillableLaborHours = f.Random.Number(0, actualHours).ToString();
-        p.ActualNonBillableLaborHours = (actualHours - int.Parse(p.ActualBillableLaborHours)).ToString();
-        p.RemainingEffort = f.Random.Number(0, plannedEffort).ToString();
+        var billableHours = f.Random.Number(0, actualHours);
+        p.ActualBillableLaborHours = billableHours;
+        p.ActualNonBillableLaborHours = actualHours - billableHours;
+        p.RemainingEffort = f.Random.Number(0, plannedEffort);
         
         var plannedCost = plannedEffort * f.Random.Number(80, 150);
-        p.PlannedCost = plannedCost.ToString();
+        p.PlannedCost = plannedCost;
         
         var actualCost = actualHours * f.Random.Number(80, 150);
-        p.ActualCost = actualCost.ToString();
+        p.ActualCost = actualCost;
         
-        p.InvoicedLaborHours = "0";
-        p.InvoicedRevenue = "0";
-        p.UninvoicedRevenue = f.Random.Number(0, 5000).ToString();
-        p.InvoicedLaborAmount = "0";
-        p.InvoicedExpense = "0";
+        p.InvoicedLaborHours = 0;
+        p.InvoicedRevenue = 0;
+        p.UninvoicedRevenue = f.Random.Number(0, 5000);
+        p.InvoicedLaborAmount = 0;
+        p.InvoicedExpense = 0;
         
-        p.PlannedLaborCost = plannedCost.ToString();
-        p.ActualLaborCost = actualCost.ToString();
-        p.PlannedNonLaborCost = "0";
-        p.ActualNonLaborCost = "0";
-        p.PlannedFixedCost = "0";
-        p.ActualFixedCost = "0";
+        p.PlannedLaborCost = plannedCost;
+        p.ActualLaborCost = actualCost;
+        p.PlannedNonLaborCost = 0;
+        p.ActualNonLaborCost = 0;
+        p.PlannedFixedCost = 0;
+        p.ActualFixedCost = 0;
         
-        p.PlannedProfit = (-plannedCost).ToString();
-        p.PlannedMargin = "0";
+        p.PlannedProfit = -plannedCost;
+        p.PlannedMargin = 0;
         
-        var revenue = int.Parse(p.UninvoicedRevenue);
-        p.ActualProfit = (revenue - actualCost).ToString();
-        p.ActualMargin = revenue > 0 ? ((revenue - actualCost) / (decimal)revenue * 100).ToString("F3") : "0";
+        var revenue = p.UninvoicedRevenue ?? 0;
+        p.ActualProfit = revenue - actualCost;
+        p.ActualMargin = revenue > 0 ? (decimal)(revenue - actualCost) / revenue * 100 : 0;
         
-        p.ProjectedCost = f.Random.Number(0, plannedCost * 2).ToString();
-        p.ProjectedLaborHours = f.Random.Number(0, plannedEffort * 2).ToString();
+        p.ProjectedCost = f.Random.Number(0, plannedCost * 2);
+        p.ProjectedLaborHours = f.Random.Number(0, plannedEffort * 2);
         p.ActualRevenue = p.UninvoicedRevenue;
-        p.ActualNonBillableLaborAmount = "0";
-        p.ActualNonBillableExpense = "0";
+        p.ActualNonBillableLaborAmount = 0;
+        p.ActualNonBillableExpense = 0;
     }
     
     private static void SetPerformanceMetrics(CeloxisProject p, Faker f)
     {
         var hasMetrics = f.Random.Bool(0.3f);
         
-        p.Cpi = hasMetrics ? f.Random.Decimal(0.5m, 1.5m).ToString("F3") : null;
-        p.Spi = hasMetrics ? f.Random.Decimal(0.8m, 1.2m).ToString() : null;
-        p.BaselineCostVariance = hasMetrics ? f.Random.Number(-10000, 5000).ToString() : null;
-        p.BaselineScheduleVariance = hasMetrics ? f.Random.Number(-30, 10).ToString() : null;
-        p.Bcwp = hasMetrics ? f.Random.Number(1000, 50000).ToString() : null;
-        p.Bcws = hasMetrics ? f.Random.Number(1000, 50000).ToString() : null;
+        p.Cpi = hasMetrics ? f.Random.Decimal(0.5m, 1.5m) : null;
+        p.Spi = hasMetrics ? f.Random.Decimal(0.8m, 1.2m) : null;
+        p.BaselineCostVariance = hasMetrics ? f.Random.Number(-10000, 5000) : null;
+        p.BaselineScheduleVariance = hasMetrics ? f.Random.Number(-30, 10) : null;
+        p.Bcwp = hasMetrics ? f.Random.Number(1000, 50000) : null;
+        p.Bcws = hasMetrics ? f.Random.Number(1000, 50000) : null;
     }
 }

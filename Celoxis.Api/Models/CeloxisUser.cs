@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Celoxis.Api.Serialization.Converters;
 
 namespace Celoxis.Api.Models;
 
-public class CeloxisUser
+public class CeloxisUser : CeloxisModel
 {
     [JsonPropertyName("id")]
     public string Id { get; set; }
@@ -32,7 +33,8 @@ public class CeloxisUser
     public string WorkCalendar { get; set; }
 
     [JsonPropertyName("admin")]
-    public string Admin { get; set; }
+    [JsonConverter(typeof(CeloxisBooleanConverter))]
+    public bool? Admin { get; set; }
 
     [JsonPropertyName("accessType")]
     public string AccessType { get; set; }
@@ -44,23 +46,24 @@ public class CeloxisUser
     public string Workspace { get; set; }
 
     [JsonPropertyName("billRate")]
-    public string BillRate { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? BillRate { get; set; }
 
     [JsonPropertyName("costRate")]
-    public string CostRate { get; set; }
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? CostRate { get; set; }
 
     [JsonPropertyName("roles")]
     public string Roles { get; set; }
 
     [JsonPropertyName("availableFrom")]
-    public object AvailableFrom { get; set; }
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
+    public DateTimeOffset? AvailableFrom { get; set; }
 
     [JsonPropertyName("availableTo")]
-    public object AvailableTo { get; set; }
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
+    public DateTimeOffset? AvailableTo { get; set; }
 
     [JsonPropertyName("primaryJobRole")]
     public string PrimaryJobRole { get; set; }
-
-    [JsonExtensionData]
-    public Dictionary<string, object> AdditionalProperties { get; set; } = new();
 }

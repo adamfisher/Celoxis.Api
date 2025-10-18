@@ -5,7 +5,7 @@ public static class FakerConstants
     public static readonly string[] ProjectTypes = { "Infrastructure", "Implementation", "sample", "Celoxis Implementation" };
     
     public static readonly string[] Workspaces = { 
-        "DLS", "Templates", "Partnership(s)", "Client(s)", "Samples", "Vimi", 
+        "DLS", "Templates", "Partnership(s)", "Client(s)", "Samples",
         "New Deals", "Potential Partnership", "Celoxis Sales", "Celoxis Implementations" 
     };
     

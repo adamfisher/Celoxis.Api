@@ -1,84 +1,72 @@
+using Celoxis.Api.Serialization.Converters;
 using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Celoxis.Api.Models;
 
-/// <summary>
-/// Request to create a new task
-/// </summary>
-public class CreateTaskRequest : CeloxisModel
+public class CreateTaskRequest : CeloxisModel, IValidatable
 {
-    /// <summary>
-    /// CeloxisProject ID or code (required)
-    /// </summary>
+    [JsonPropertyName("project")]
     public string Project { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Task name (required)
-    /// </summary>
+    [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Planned effort
-    /// </summary>
-    public string? PlannedEffort { get; set; }
+    [JsonPropertyName("plannedEffort")]
+    [JsonConverter(typeof(StringToDecimalConverter))]
+    public decimal? PlannedEffort { get; set; }
 
-    /// <summary>
-    /// Duration
-    /// </summary>
+    [JsonPropertyName("duration")]
     public string? Duration { get; set; }
 
-    /// <summary>
-    /// Resources (e.g., "Joe Cool[50%], Peter Parker")
-    /// </summary>
+    [JsonPropertyName("resources")]
     public string? Resources { get; set; }
 
-    /// <summary>
-    /// Planned start date
-    /// </summary>
+    [JsonPropertyName("plannedStart")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? PlannedStart { get; set; }
 
-    /// <summary>
-    /// Parent task ID
-    /// </summary>
+    [JsonPropertyName("parent")]
     public string? Parent { get; set; }
 
-    /// <summary>
-    /// Description
-    /// </summary>
+    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
-    /// <summary>
-    /// Priority
-    /// </summary>
+    [JsonPropertyName("priority")]
     public string? Priority { get; set; }
 
-    /// <summary>
-    /// Schedule type
-    /// </summary>
+    [JsonPropertyName("scheduleType")]
     public string? ScheduleType { get; set; }
 
-    /// <summary>
-    /// Constraint type
-    /// </summary>
+    [JsonPropertyName("constraintType")]
     public string? ConstraintType { get; set; }
 
-    /// <summary>
-    /// Constraint date
-    /// </summary>
+    [JsonPropertyName("constraintDate")]
+    [JsonConverter(typeof(NullableFlexibleDateTimeOffsetConverter))]
     public DateTimeOffset? ConstraintDate { get; set; }
 
-    /// <summary>
-    /// Billing type
-    /// </summary>
+    [JsonPropertyName("billingType")]
     public string? BillingType { get; set; }
 
-    /// <summary>
-    /// Budget
-    /// </summary>
+    [JsonPropertyName("budget")]
+    [JsonConverter(typeof(StringToDecimalConverter))]
     public decimal? Budget { get; set; }
 
-    /// <summary>
-    /// Fixed price
-    /// </summary>
+    [JsonPropertyName("fixedPrice")]
+    [JsonConverter(typeof(StringToDecimalConverter))]
     public decimal? FixedPrice { get; set; }
+
+    public ValidationResult Validate()
+    {
+        var errors = new List<ValidationError>();
+        
+        if (string.IsNullOrWhiteSpace(Project))
+            errors.Add(new ValidationError("Project", "Project ID or code is required"));
+
+        if (string.IsNullOrWhiteSpace(Name))
+            errors.Add(new ValidationError("Name", "Task name is required"));
+
+        return new ValidationResult(errors);
+    }
 }
